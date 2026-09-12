@@ -11,6 +11,8 @@
     "start": "npm --prefix backend run start",
     "seed": "npm --prefix backend run seed",
     "test": "npm test --prefix backend && npm test --prefix frontend",
+    "e2e": "node scripts/e2e.js",
+    "snapshot": "node scripts/snapshot.js",
     "package": "node scripts/package.js"
   },
   "devDependencies": {

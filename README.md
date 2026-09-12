@@ -31,7 +31,8 @@ from memory so the page works out of the box.
 ```bash
 npm test             # API tests (node:test) + frontend utility tests
 npm run lint --prefix frontend
-node scripts/snapshot.js     # headless screenshots of every view -> .snapshots/
+npm run e2e          # headless-Chrome behaviour checks against the dev server
+npm run snapshot     # headless screenshots of every view -> .snapshots/
 npm run package      # creates airbnb-clone-submission.zip (no node_modules)
 ```
 
