@@ -250,7 +250,7 @@ export const ChevronLeftSm = (p) =>
   )({ viewBox: '0 0 18 18', ...p });
 export const Keyboard = (p) =>
   wrap(
-    {},
+    { fill: 'none', stroke: 'currentColor', strokeWidth: '1.6', width: 20, height: 14 },
     <>
       <rect x="1" y="1" width="30" height="20" rx="3"></rect>
       <path d="M6 7h.01M11 7h.01M16 7h.01M21 7h.01M26 7h.01M6 12h.01M26 12h.01M9 16h14"></path>
