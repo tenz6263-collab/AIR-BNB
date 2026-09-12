@@ -5,7 +5,7 @@ export function Header() {
   return (
     <header className={styles.header} id="siteHeader">
       <div className={styles.inner}>
-        <a className={styles.logo} href="/" aria-label="Airbnb homepage">
+        <a className={styles.logo} href="#" aria-label="Airbnb homepage">
           <span className={styles.logoMark}>
             <AirbnbLogo />
           </span>
