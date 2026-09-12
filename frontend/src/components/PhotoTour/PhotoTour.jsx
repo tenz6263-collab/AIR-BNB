@@ -3,25 +3,8 @@ import { Back, Heart, Share } from '../icons';
 import { IconButton } from '../ui/IconButton';
 import { useBodyLock } from '../../hooks/useBodyLock';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
+import { chunkPhotos } from '../../utils/photos';
 import styles from './PhotoTour.module.css';
-
-/**
- * Splits a room's photos into rows: a full-width photo followed by a pair,
- * repeating, but never leaving a lone photo when exactly two remain.
- */
-export function chunkPhotos(count) {
-  const rows = [];
-  let remaining = count;
-  let single = true;
-  while (remaining > 0) {
-    let size = remaining === 2 ? 2 : single ? 1 : 2;
-    size = Math.min(size, remaining);
-    rows.push(size);
-    remaining -= size;
-    single = !single;
-  }
-  return rows;
-}
 
 /**
  * Full-screen scrollable photo tour. `scrollTarget` is a room index (or the
