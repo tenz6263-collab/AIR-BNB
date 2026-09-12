@@ -37,7 +37,7 @@ function ReviewCard({ review }) {
   );
 }
 
-export function Reviews({ summary, reviews, guestFavourite, onShowAll }) {
+export function Reviews({ summary, reviews, guestFavourite }) {
   return (
     <section className={styles.section} id="reviews">
       <div className={styles.hero}>
@@ -94,7 +94,7 @@ export function Reviews({ summary, reviews, guestFavourite, onShowAll }) {
         ))}
       </div>
 
-      <Button variant="outline" onClick={onShowAll}>
+      <Button variant="outline">
         Show all {summary.count} reviews
       </Button>
     </section>

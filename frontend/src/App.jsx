@@ -71,14 +71,14 @@ export default function App() {
     }
   }, [saved, toast]);
 
-  const share = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.origin + window.location.pathname);
-      toast('Link copied');
-    } catch {
-      toast('Share options');
-    }
+  // Mirrors the reference: the toast reads "Share options"; the link is also
+  // copied to the clipboard when the browser allows it.
+  const share = useCallback(() => {
+    navigator.clipboard?.writeText(window.location.origin + window.location.pathname).catch(() => {});
+    toast('Share options');
   }, [toast]);
+
+  const reserve = useCallback(() => toast("You won't be charged yet"), [toast]);
 
   const openTour = useCallback(
     (target, opener) => {
@@ -134,7 +134,7 @@ export default function App() {
         active={active}
         booking={listing.booking}
         rating={listing.rating}
-        onReserve={() => toast('Reserve is not available in this demo')}
+        onReserve={reserve}
       />
 
       <main id="main">
@@ -170,9 +170,7 @@ export default function App() {
                 booking={listing.booking}
                 checkIn={dates.checkIn}
                 checkOut={dates.checkOut}
-                onReserve={() => toast('Reserve is not available in this demo')}
-                onClaim={() => toast('Discount applied to your next stay')}
-                onReport={() => toast('Thanks, we will review this listing')}
+                onReserve={reserve}
               />
             </aside>
           </div>
@@ -182,13 +180,9 @@ export default function App() {
               summary={listing.reviewsSummary}
               reviews={listing.reviews}
               guestFavourite={listing.guestFavourite}
-              onShowAll={() => toast('All 19 reviews are shown on this page')}
             />
             <LocationMap location={listing.location} />
-            <HostSection
-              host={listing.host}
-              onMessage={() => toast('Messaging is not available in this demo')}
-            />
+            <HostSection host={listing.host} />
             <ThingsToKnow items={listing.thingsToKnow} />
             <SimilarStays items={listing.similar} />
           </div>

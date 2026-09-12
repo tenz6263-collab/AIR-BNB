@@ -3,7 +3,7 @@ import { formatDayBefore, formatInr, formatUs, nightsBetween, parseIso } from '.
 import styles from './BookingCard.module.css';
 
 /** Sticky right-hand column: promo banner, price/reserve card, report link. */
-export function BookingCard({ booking, checkIn, checkOut, onReserve, onClaim, onReport }) {
+export function BookingCard({ booking, checkIn, checkOut, onReserve }) {
   const nights = checkIn && checkOut ? nightsBetween(parseIso(checkIn), parseIso(checkOut)) : 0;
   const isDefault = checkIn === booking.checkIn && checkOut === booking.checkOut;
   const perNight = Number(booking.priceLabel.replace(/[^\d]/g, '')) / booking.nights;
@@ -18,7 +18,7 @@ export function BookingCard({ booking, checkIn, checkOut, onReserve, onClaim, on
           <br />
           <a href="#">{booking.promo.linkText}</a>
         </div>
-        <button className={styles.claim} type="button" onClick={onClaim}>
+        <button className={styles.claim} type="button">
           {booking.promo.cta}
         </button>
       </div>
@@ -75,15 +75,7 @@ export function BookingCard({ booking, checkIn, checkOut, onReserve, onClaim, on
         <span className={styles.flag}>
           <Flag />
         </span>
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            onReport();
-          }}
-        >
-          Report this listing
-        </a>
+        <a href="#">Report this listing</a>
       </div>
     </div>
   );
