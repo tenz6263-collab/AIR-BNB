@@ -79,7 +79,7 @@ export function SimilarStays({ items }) {
       <div className={styles.track} ref={trackRef}>
         {items.map((item, i) => (
           <a className={styles.card} href="#" key={item.title + i}>
-            <img src={item.image} alt="" loading="lazy" />
+            <img src={item.image} alt="" loading="lazy" decoding="async" />
             <div className={styles.title}>{item.title}</div>
             <div className={styles.price}>
               {item.price} &nbsp;

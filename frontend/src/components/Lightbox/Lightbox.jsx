@@ -77,7 +77,9 @@ export function Lightbox({ photos, index, onChange, onClose }) {
         <IconButton icon={Grid} label="Show all photos" className={styles.grid} size={16} onClick={onClose} />
         <div className={styles.title}>{photo ? photo.room : ''}</div>
         <div className={styles.right}>
-          <span className={styles.counter}>{open ? `${index + 1} of ${photos.length}` : ''}</span>
+          <span className={styles.counter} aria-live="polite" aria-atomic="true">
+            {open ? `${index + 1} of ${photos.length}` : ''}
+          </span>
           <IconButton ref={closeRef} icon={Close} label="Close" onClick={onClose} />
         </div>
       </header>

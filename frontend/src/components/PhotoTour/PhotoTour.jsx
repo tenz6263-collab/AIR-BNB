@@ -125,7 +125,7 @@ export function PhotoTour({
                   aria-label={room.name}
                   onClick={() => scrollToRoom(i)}
                 >
-                  <img loading="lazy" alt="" src={room.photos[0]} />
+                  <img loading="lazy" decoding="async" alt="" src={room.photos[0]} />
                   <span className={styles.categoryLabel}>{room.name}</span>
                 </button>
               ))}
@@ -166,7 +166,7 @@ export function PhotoTour({
                                   }}
                                   onClick={() => onOpenPhoto(globalIndex, () => focusPhoto(globalIndex))}
                                 >
-                                  <img loading="lazy" alt={room.name} src={src} />
+                                  <img loading="lazy" decoding="async" alt={room.name} src={src} />
                                 </button>
                               );
                             })}
