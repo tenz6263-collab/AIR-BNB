@@ -1,0 +1,20 @@
+{
+  "name": "airbnb-clone-backend",
+  "version": "1.0.0",
+  "description": "REST API for the Airbnb listing clone (Express + MongoDB)",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "seed": "node src/scripts/seed.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "helmet": "^8.0.0",
+    "mongoose": "^8.8.1",
+    "morgan": "^1.10.0"
+  }
+}
