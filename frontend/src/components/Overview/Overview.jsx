@@ -23,7 +23,7 @@ function GuestFavouriteCard({ guestFavourite, rating }) {
       <div className={styles.favStats}>
         <div className={styles.stat}>
           <div className={styles.statValue}>{rating.value}</div>
-          <Stars className={styles.statStars} />
+          <Stars className={styles.statStars} label={`Rated ${rating.value} out of 5`} />
         </div>
         <div className={styles.statDivider} />
         <div className={styles.stat}>

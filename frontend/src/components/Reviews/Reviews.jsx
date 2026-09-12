@@ -23,7 +23,7 @@ function ReviewCard({ review }) {
         </div>
       </div>
       <div className={styles.meta}>
-        <Stars count={review.stars} gap={1} />
+        <Stars count={review.stars} gap={1} label={`Rated ${review.stars} out of 5`} />
         <span>·</span>
         <span>{review.date}</span>
       </div>

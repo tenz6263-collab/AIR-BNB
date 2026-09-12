@@ -18,6 +18,7 @@ export function StickyNav({ visible, active, booking, rating, onReserve }) {
               key={link.id}
               href={`#${link.id}`}
               className={active === link.id ? styles.active : ''}
+              aria-current={active === link.id ? 'true' : undefined}
               tabIndex={visible ? 0 : -1}
             >
               {link.label}
