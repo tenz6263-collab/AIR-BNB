@@ -1,3 +1,6 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -6,6 +9,8 @@ import listingsRouter from './routes/listings.js';
 import { visitorId } from './middleware/visitor.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 import { isDatabaseConnected } from './config/db.js';
+
+const DIST = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../frontend/dist');
 
 export function createApp({ clientOrigin }) {
   const app = express();
@@ -20,6 +25,12 @@ export function createApp({ clientOrigin }) {
     res.json({ ok: true, database: isDatabaseConnected() ? 'mongodb' : 'memory' });
   });
   app.use('/api/listings', listingsRouter);
+
+  // In production the API also serves the built frontend (npm run build).
+  if (fs.existsSync(DIST)) {
+    app.use(express.static(DIST, { maxAge: '1h', index: false }));
+    app.get(/^(?!\/api\/).*/, (_req, res) => res.sendFile(path.join(DIST, 'index.html')));
+  }
 
   app.use(notFound);
   app.use(errorHandler);
