@@ -1,0 +1,42 @@
+.section {
+  padding: 48px 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+.heading {
+  font-size: 22px;
+  line-height: 26px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  color: #222;
+  margin-bottom: 18px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+
+.column p {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.more {
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: underline;
+}

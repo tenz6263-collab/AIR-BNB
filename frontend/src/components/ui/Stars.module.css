@@ -1,0 +1,8 @@
+.stars {
+  display: inline-flex;
+  color: #222;
+}
+
+.stars > span {
+  display: inline-block;
+}

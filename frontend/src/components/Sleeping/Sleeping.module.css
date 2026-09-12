@@ -1,0 +1,38 @@
+.section {
+  padding: 32px 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+.heading {
+  font-size: 22px;
+  line-height: 26px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.card img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+  display: block;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 14px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--muted-2);
+  margin-top: 2px;
+}

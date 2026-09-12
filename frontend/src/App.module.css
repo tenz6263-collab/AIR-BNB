@@ -1,0 +1,31 @@
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 372px;
+  gap: 0 96px;
+  align-items: stretch;
+}
+
+.left {
+  min-width: 0;
+}
+
+.right {
+  position: relative;
+  align-self: stretch;
+}
+
+.wide {
+  border-top: 1px solid var(--line-soft);
+}
+
+.error {
+  max-width: 560px;
+  margin: 120px auto;
+  text-align: center;
+}
+
+.error h1 {
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}

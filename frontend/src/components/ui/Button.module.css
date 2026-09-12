@@ -1,0 +1,67 @@
+.base {
+  font-family: inherit;
+  transition: background 0.15s, transform 0.05s, filter 0.15s;
+}
+
+/* Gradient "Reserve" pill */
+.primary {
+  border: none;
+  color: #fff;
+  background: var(--reserve);
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 999px;
+  padding: 0 24px;
+  height: 48px;
+}
+
+.primary:hover {
+  background: var(--reserve-hover);
+}
+
+.primary:active {
+  transform: scale(0.985);
+}
+
+/* Black outlined "Show all ..." */
+.outline {
+  border: 1px solid #222;
+  background: #fff;
+  border-radius: 12px;
+  padding: 13px 23px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.outline:hover {
+  background: var(--grey-100);
+}
+
+.outline:active {
+  transform: scale(0.98);
+}
+
+/* Light grey "Message host" */
+.soft {
+  background: var(--grey-200);
+  border: none;
+  border-radius: 8px;
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.soft:hover {
+  background: var(--grey-300);
+}
+
+/* Underlined text button */
+.link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: #222;
+}

@@ -1,0 +1,158 @@
+.panel {
+  position: fixed;
+  inset: 0;
+  z-index: 140;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+}
+
+.panel.open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.25s ease;
+}
+
+.bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 3;
+}
+
+.grid {
+  margin-left: -8px;
+}
+
+.title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.counter {
+  font-size: 14px;
+}
+
+.stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 88px 96px;
+}
+
+.image {
+  max-width: min(1100px, 100%);
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  animation: lbFade 0.3s ease;
+}
+
+.fromRight {
+  animation-name: lbFadeRight;
+}
+
+.fromLeft {
+  animation-name: lbFadeLeft;
+}
+
+@keyframes lbFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes lbFadeRight {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes lbFadeLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #222;
+  background: #fff;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.16s, transform 0.08s, opacity 0.2s;
+}
+
+.nav:hover {
+  background: var(--grey-100);
+}
+
+.nav:active {
+  transform: translateY(-50%) scale(0.92);
+}
+
+.prev {
+  left: 20px;
+}
+
+.next {
+  right: 20px;
+}
+
+.nav[disabled] {
+  opacity: 0.28;
+  cursor: default;
+  border-color: #ccc;
+}
+
+.nav[disabled]:hover {
+  background: #fff;
+}
+
+.navIcon {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+}

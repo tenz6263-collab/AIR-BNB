@@ -1,0 +1,32 @@
+/* Design tokens for the listing page. Values mirror the reference build. */
+@font-face {
+  font-family: 'Airbnb Cereal VF';
+  src: url('/assets/fonts/AirbnbCerealVF.woff2') format('woff2-variations');
+  font-weight: 200 900;
+  font-display: swap;
+}
+
+:root {
+  --ink: #222222;
+  --muted: #6a6a6a;
+  --muted-2: #717171;
+  --line: #dddddd;
+  --line-soft: #ebebeb;
+  --line-strong: #b0b0b0;
+  --card-border: rgba(0, 0, 0, 0.08);
+  --rausch: #ff385c;
+  --reserve: linear-gradient(to right, #e61e4d 0%, #e31c5f 50%, #d70466 100%);
+  --reserve-hover: linear-gradient(to right, #d81b5f 0%, #c31a5b 50%, #bd0463 100%);
+  --grey-100: #f7f7f7;
+  --grey-200: #f2f2f2;
+  --grey-300: #ebebeb;
+  --container: 1280px;
+  --gutter: 80px;
+  --font: 'Airbnb Cereal VF', Circular, -apple-system, BlinkMacSystemFont, 'system-ui', Roboto,
+    'Helvetica Neue', sans-serif;
+  --shadow-card: 0 6px 16px rgba(0, 0, 0, 0.12);
+  --shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.18);
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --header-height: 88px;
+  --sticky-nav-height: 66px;
+}

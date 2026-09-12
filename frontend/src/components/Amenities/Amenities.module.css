@@ -1,0 +1,40 @@
+.section {
+  padding: 32px 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+.heading {
+  font-size: 22px;
+  line-height: 26px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 8px;
+  margin-bottom: 24px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 16px;
+  padding: 4px 0;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.unavailable {
+  color: var(--muted-2);
+}
+
+.unavailable .label {
+  text-decoration: line-through;
+}
