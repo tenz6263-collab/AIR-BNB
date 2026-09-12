@@ -2,7 +2,6 @@
 // that inherits color from its parent (fill or stroke = currentColor) and fills
 // the box it is placed in, so sizing is controlled entirely by the wrapper.
 /* eslint-disable react/display-name */
-import React from 'react';
 
 const base = { display: 'block', width: '100%', height: '100%' };
 const wrap = (style, children) => (props) => (
