@@ -135,3 +135,23 @@ Output: `backend/test/api.test.js`, `frontend/src/utils/__tests__/`,
 > whole app runs from one port after `npm run build && npm start`.
 
 Output: static serving in `backend/src/app.js`, README updated.
+
+## 13. Behavioural parity sweep
+
+> Click every secondary control on the reference and record what happens
+> (toast text, URL, focus). Align the clone: Reserve -> "You won't be charged
+> yet", Share -> "Share options", Save -> "Saved to wishlist" /
+> "Removed from wishlist"; Claim, Show all reviews, Message host, Report and
+> How reviews work are no-ops. Re-run the landmark diff and write the
+> results to `docs/PARITY.md`.
+
+## 14. End-to-end checks and deployment scaffolding
+
+> Write a headless-Chrome e2e script covering deep links, browser back,
+> the full keyboard flow with focus restoration, hero-tile room scrolling,
+> modal focus trapping, wishlist persistence and the sticky nav thresholds.
+> Add the reference's responsive breakpoints, an error boundary, Dockerfile +
+> docker-compose (API + MongoDB) and a CI workflow (lint, test, build).
+
+Output: `scripts/e2e.js` (7/7 passing), media queries, `Dockerfile`,
+`docker-compose.yml`, `.github/workflows/ci.yml`.
