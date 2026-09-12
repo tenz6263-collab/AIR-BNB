@@ -1,4 +1,3 @@
-import { forwardRef } from 'react';
 import * as Icons from '../icons';
 import { Button } from '../ui/Button';
 import styles from './Amenities.module.css';
@@ -13,7 +12,7 @@ export function AmenityRow({ item, className = '' }) {
   );
 }
 
-export const Amenities = forwardRef(function Amenities({ items, total, onShowAll }, ref) {
+export function Amenities({ items, total, onShowAll }) {
   return (
     <section className={styles.section} id="amenities">
       <h2 className={styles.heading}>What this place offers</h2>
@@ -22,9 +21,9 @@ export const Amenities = forwardRef(function Amenities({ items, total, onShowAll
           <AmenityRow key={item.label} item={item} />
         ))}
       </div>
-      <Button ref={ref} variant="outline" onClick={onShowAll}>
+      <Button variant="outline" onClick={onShowAll}>
         Show all {total} amenities
       </Button>
     </section>
   );
-});
+}
