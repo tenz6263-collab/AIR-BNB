@@ -53,3 +53,8 @@ test('wishlist toggles per visitor', async () => {
   const off = await (await fetch(`${base}/api/listings/${SLUG}/wishlist`, { method: 'POST', headers })).json();
   assert.equal(off.saved, false);
 });
+
+test('malformed slugs are rejected with 400', async () => {
+  const res = await fetch(`${base}/api/listings/${encodeURIComponent('bad slug!')}`);
+  assert.equal(res.status, 400);
+});

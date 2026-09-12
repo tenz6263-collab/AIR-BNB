@@ -39,6 +39,10 @@ npm run snapshot     # headless screenshots of every view -> .snapshots/
 npm run package      # creates airbnb-clone-submission.zip (no node_modules)
 ```
 
+| Listing | Photo tour | Lightbox |
+| --- | --- | --- |
+| ![Listing](docs/screenshots/listing.png) | ![Photo tour](docs/screenshots/photo-tour.png) | ![Lightbox](docs/screenshots/lightbox.png) |
+
 ## What is implemented
 
 | View | Details |
