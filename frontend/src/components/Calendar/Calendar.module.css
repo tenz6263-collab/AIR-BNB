@@ -103,7 +103,7 @@
 }
 
 .blocked {
-  color: #ddd;
+  color: var(--line);
   text-decoration: line-through;
   cursor: default;
 }
