@@ -23,6 +23,9 @@ Production-style run (single port, the API serves the built frontend):
 npm run build && npm start   # http://localhost:4000
 ```
 
+Docker: `docker compose up --build` starts the API (serving the built
+frontend) together with MongoDB on http://localhost:4000.
+
 MongoDB is optional. Copy `backend/.env.example` to `backend/.env` and set
 `MONGODB_URI` to use a database (the listing is seeded automatically on first
 start, or run `npm run seed`). Without it the API serves the bundled dataset
