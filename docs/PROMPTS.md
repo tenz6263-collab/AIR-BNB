@@ -155,3 +155,20 @@ Output: static serving in `backend/src/app.js`, README updated.
 
 Output: `scripts/e2e.js` (7/7 passing), media queries, `Dockerfile`,
 `docker-compose.yml`, `.github/workflows/ci.yml`.
+
+## 15. Autonomous improvement loop
+
+> Keep iterating unattended: each pass picks one parity, accessibility,
+> code-quality or docs improvement, verifies it (lint, unit + API tests,
+> build, headless e2e), commits, and refreshes the submission zip.
+
+Passes so far:
+- Modal URL parsing/building extracted to `utils/modalUrl.js` with tests;
+  logo link matches the reference.
+- Page content made `inert` while the tour or amenities modal is open
+  (asserted in e2e).
+- Lightbox counter announced through `aria-live`; async image decoding in
+  the tour and carousel.
+- Seed dataset validated against the Mongoose schema and checked for
+  internal consistency.
+- "Try again" action on the listing error state.
