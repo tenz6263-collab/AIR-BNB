@@ -1,0 +1,18 @@
+{
+  "name": "airbnb-listing-clone",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pixel-perfect Airbnb listing page clone - MERN stack (Playpower Labs assignment)",
+  "author": "Rishi Detroja",
+  "scripts": {
+    "postinstall": "npm --prefix backend install && npm --prefix frontend install",
+    "dev": "concurrently -n api,web -c blue,magenta \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
+    "build": "npm --prefix frontend run build",
+    "start": "npm --prefix backend run start",
+    "seed": "npm --prefix backend run seed",
+    "package": "node scripts/package.js"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
