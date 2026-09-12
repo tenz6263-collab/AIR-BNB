@@ -24,6 +24,7 @@ import { PhotoTour } from './components/PhotoTour/PhotoTour';
 import { Lightbox } from './components/Lightbox/Lightbox';
 import { Toast } from './components/Toast/Toast';
 import { PageSkeleton } from './components/ui/PageSkeleton';
+import { Button } from './components/ui/Button';
 import styles from './App.module.css';
 
 const SLUG = 'romantic-jacuzzi-1bhk-candolim-mirashya-ug10';
@@ -31,7 +32,7 @@ const SECTIONS = ['photos', 'amenities', 'reviews', 'location'];
 
 export default function App() {
   useKeyboardMode();
-  const { listing, loading, error } = useListing(SLUG);
+  const { listing, loading, error, retry } = useListing(SLUG);
   const { message, show: toast } = useToast();
   const modal = useModalParams();
 
@@ -117,9 +118,12 @@ export default function App() {
   if (loading) return <PageSkeleton />;
   if (error || !listing) {
     return (
-      <div className={styles.error}>
+      <div className={styles.error} role="alert">
         <h1>We couldn&apos;t load this listing.</h1>
         <p>{error?.message || 'Please try again.'}</p>
+        <Button variant="outline" className={styles.retry} onClick={retry}>
+          Try again
+        </Button>
       </div>
     );
   }
