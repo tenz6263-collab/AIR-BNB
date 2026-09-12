@@ -80,8 +80,8 @@ export function PhotoTour({
       roomIndex = hit ? hit.roomIndex : 0;
     }
     body.scrollTop = 0;
-    const id = requestAnimationFrame(() => scrollToRoom(roomIndex));
-    return () => cancelAnimationFrame(id);
+    const id = setTimeout(() => scrollToRoom(roomIndex), 30);
+    return () => clearTimeout(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, scrollTarget]);
 

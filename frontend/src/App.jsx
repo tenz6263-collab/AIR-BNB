@@ -90,7 +90,7 @@ export default function App() {
     modal.closeTour();
     const opener = tourOpenerRef.current;
     if (opener && typeof opener.focus === 'function') {
-      requestAnimationFrame(() => opener.focus({ preventScroll: true }));
+      setTimeout(() => opener.focus({ preventScroll: true }), 0);
     }
   }, [modal]);
 
@@ -105,7 +105,7 @@ export default function App() {
   const closeLightbox = useCallback(() => {
     modal.closeLightbox();
     const fn = lightboxReturnFocus.current;
-    if (fn) requestAnimationFrame(fn);
+    if (fn) setTimeout(fn, 0);
   }, [modal]);
 
   const photos = useMemo(() => listing?.photos ?? [], [listing]);

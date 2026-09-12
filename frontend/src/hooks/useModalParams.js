@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const TOUR = 'PHOTO_TOUR_SCROLLABLE';
 const ITEM_BASE = 1000;
@@ -39,13 +39,16 @@ export function useModalParams() {
     setState({ tour: Boolean(next.tour), index: next.tour ? next.index ?? null : null });
   }, []);
 
-  return {
-    tourOpen: state.tour,
-    lightboxIndex: state.index,
-    openTour: () => write({ tour: true, index: null }),
-    closeTour: () => write({ tour: false, index: null }),
-    openLightbox: (index) => write({ tour: true, index }),
-    setLightboxIndex: (index) => write({ tour: true, index }, { replace: true }),
-    closeLightbox: () => write({ tour: true, index: null }),
-  };
+  return useMemo(
+    () => ({
+      tourOpen: state.tour,
+      lightboxIndex: state.index,
+      openTour: () => write({ tour: true, index: null }),
+      closeTour: () => write({ tour: false, index: null }),
+      openLightbox: (index) => write({ tour: true, index }),
+      setLightboxIndex: (index) => write({ tour: true, index }, { replace: true }),
+      closeLightbox: () => write({ tour: true, index: null }),
+    }),
+    [state, write],
+  );
 }

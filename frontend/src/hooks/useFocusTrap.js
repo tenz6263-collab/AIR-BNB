@@ -4,8 +4,10 @@ const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 /**
- * Keeps Tab focus inside `ref` while `active`, moves focus in on open and
- * restores it to the previously focused element on close.
+ * Keeps Tab focus inside `ref` while `active`. On activation focus moves to
+ * `initialFocus()` (or the first focusable) unless focus is already inside the
+ * dialog - e.g. when a nested overlay closes and has restored focus itself. On
+ * deactivation focus returns to the element that was focused beforehand.
  */
 export function useFocusTrap(ref, active, { initialFocus } = {}) {
   useEffect(() => {
@@ -13,12 +15,16 @@ export function useFocusTrap(ref, active, { initialFocus } = {}) {
     const root = ref.current;
     const previouslyFocused = document.activeElement;
 
-    const focusables = () => Array.from(root.querySelectorAll(FOCUSABLE)).filter((el) => el.offsetParent !== null || el === document.activeElement);
+    const focusables = () =>
+      Array.from(root.querySelectorAll(FOCUSABLE)).filter(
+        (el) => el.offsetParent !== null || el === document.activeElement,
+      );
 
-    const raf = requestAnimationFrame(() => {
+    const timer = setTimeout(() => {
+      if (root.contains(document.activeElement)) return;
       const target = (initialFocus && initialFocus()) || focusables()[0] || root;
       target.focus({ preventScroll: true });
-    });
+    }, 0);
 
     const onKeyDown = (e) => {
       if (e.key !== 'Tab') return;
@@ -40,9 +46,11 @@ export function useFocusTrap(ref, active, { initialFocus } = {}) {
 
     root.addEventListener('keydown', onKeyDown);
     return () => {
-      cancelAnimationFrame(raf);
+      clearTimeout(timer);
       root.removeEventListener('keydown', onKeyDown);
-      if (previouslyFocused && typeof previouslyFocused.focus === 'function') {
+      const current = document.activeElement;
+      const shouldRestore = current === document.body || root.contains(current);
+      if (shouldRestore && previouslyFocused && typeof previouslyFocused.focus === 'function') {
         previouslyFocused.focus({ preventScroll: true });
       }
     };
