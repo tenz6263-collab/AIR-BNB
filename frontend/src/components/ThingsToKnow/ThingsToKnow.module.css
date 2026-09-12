@@ -40,3 +40,10 @@
   font-weight: 500;
   text-decoration: underline;
 }
+
+@media (max-width: 1128px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}

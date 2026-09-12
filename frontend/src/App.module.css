@@ -29,3 +29,13 @@
   font-weight: 500;
   margin-bottom: 8px;
 }
+
+@media (max-width: 1128px) {
+  .columns {
+    grid-template-columns: 1fr;
+  }
+
+  .right {
+    display: none;
+  }
+}

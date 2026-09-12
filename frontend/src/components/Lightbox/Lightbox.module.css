@@ -131,3 +131,9 @@
   height: 18px;
   display: inline-block;
 }
+
+@media (max-width: 743px) {
+  .stage {
+    padding: 80px 12px;
+  }
+}

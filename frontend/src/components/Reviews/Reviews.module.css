@@ -205,3 +205,19 @@
   font-weight: 500;
   text-decoration: underline;
 }
+
+@media (max-width: 1128px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .breakdown {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .column {
+    border-left: none !important;
+    padding: 10px 0;
+  }
+}

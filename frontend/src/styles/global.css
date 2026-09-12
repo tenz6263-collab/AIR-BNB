@@ -102,3 +102,15 @@ body.kbd button:focus-visible {
     scroll-behavior: auto !important;
   }
 }
+
+@media (max-width: 1128px) {
+  .container {
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 743px) {
+  .container {
+    padding: 0 24px;
+  }
+}

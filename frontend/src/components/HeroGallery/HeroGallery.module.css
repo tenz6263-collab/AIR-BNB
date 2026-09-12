@@ -83,3 +83,16 @@
   height: 15px;
   display: inline-block;
 }
+
+@media (max-width: 743px) {
+  .grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 280px;
+    height: 280px;
+    aspect-ratio: auto;
+  }
+
+  .tile:not(:first-child) {
+    display: none;
+  }
+}

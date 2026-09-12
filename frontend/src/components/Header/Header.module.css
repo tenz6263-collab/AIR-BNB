@@ -141,3 +141,10 @@
 .round:hover {
   background: var(--grey-300);
 }
+
+@media (max-width: 743px) {
+  .search,
+  .host {
+    display: none;
+  }
+}

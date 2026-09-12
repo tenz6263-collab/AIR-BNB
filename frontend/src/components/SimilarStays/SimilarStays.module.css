@@ -112,3 +112,15 @@
   height: 10px;
   vertical-align: -1px;
 }
+
+@media (max-width: 1128px) {
+  .card {
+    flex-basis: calc((100% - 40px) / 3);
+  }
+}
+
+@media (max-width: 743px) {
+  .card {
+    flex-basis: calc((100% - 20px) / 2);
+  }
+}

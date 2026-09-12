@@ -160,3 +160,9 @@
   height: 24px;
   flex-shrink: 0;
 }
+
+@media (max-width: 1128px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
