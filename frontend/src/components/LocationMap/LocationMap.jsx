@@ -46,12 +46,17 @@ export function LocationMap({ location }) {
         {expanded && (
           <>
             {' '}
-            Candolim Beach is a short walk away, with Fort Aguada, Sinquerim and the Calangute market all within a
-            ten-minute drive. Cafes, beach shacks and nightlife line the main road.
+            Candolim Beach is a short walk away, with Fort Aguada, Sinquerim and the Calangute market all
+            within a ten-minute drive. Cafes, beach shacks and nightlife line the main road.
           </>
         )}
       </div>
-      <button type="button" className={styles.showMore} onClick={() => setExpanded((v) => !v)} aria-expanded={expanded}>
+      <button
+        type="button"
+        className={styles.showMore}
+        onClick={() => setExpanded((v) => !v)}
+        aria-expanded={expanded}
+      >
         {expanded ? 'Show less' : 'Show more'}{' '}
         <span className={styles.chevron}>
           <ChevronRightSm />

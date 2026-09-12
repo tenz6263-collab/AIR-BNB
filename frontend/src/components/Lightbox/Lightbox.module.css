@@ -8,7 +8,9 @@
   justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+  transition:
+    opacity 0.25s ease,
+    visibility 0s linear 0.25s;
 }
 
 .panel.open {
@@ -70,42 +72,12 @@
   animation: lbFade 0.3s ease;
 }
 
-.fromRight {
-  animation-name: lbFadeRight;
-}
-
-.fromLeft {
-  animation-name: lbFadeLeft;
-}
-
 @keyframes lbFade {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
-  }
-}
-
-@keyframes lbFadeRight {
-  from {
-    opacity: 0;
-    transform: translateX(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes lbFadeLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
   }
 }
 
@@ -122,7 +94,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.16s, transform 0.08s, opacity 0.2s;
+  transition:
+    background 0.16s,
+    transform 0.08s,
+    opacity 0.2s;
 }
 
 .nav:hover {

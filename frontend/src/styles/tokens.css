@@ -22,8 +22,9 @@
   --grey-300: #ebebeb;
   --container: 1280px;
   --gutter: 80px;
-  --font: 'Airbnb Cereal VF', Circular, -apple-system, BlinkMacSystemFont, 'system-ui', Roboto,
-    'Helvetica Neue', sans-serif;
+  --font:
+    'Airbnb Cereal VF', Circular, -apple-system, BlinkMacSystemFont, 'system-ui', Roboto, 'Helvetica Neue',
+    sans-serif;
   --shadow-card: 0 6px 16px rgba(0, 0, 0, 0.12);
   --shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.18);
   --ease-out: cubic-bezier(0.2, 0, 0, 1);

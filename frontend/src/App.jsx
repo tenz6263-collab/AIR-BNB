@@ -53,7 +53,10 @@ export default function App() {
   }, [listing]);
 
   useEffect(() => {
-    api.getWishlist(SLUG).then((r) => setSaved(r.saved)).catch(() => {});
+    api
+      .getWishlist(SLUG)
+      .then((r) => setSaved(r.saved))
+      .catch(() => {});
   }, []);
 
   const toggleSave = useCallback(async () => {
@@ -155,7 +158,12 @@ export default function App() {
                 total={listing.amenityCount}
                 onShowAll={() => setAmenitiesOpen(true)}
               />
-              <Calendar booking={listing.booking} checkIn={dates.checkIn} checkOut={dates.checkOut} onChange={setDates} />
+              <Calendar
+                booking={listing.booking}
+                checkIn={dates.checkIn}
+                checkOut={dates.checkOut}
+                onChange={setDates}
+              />
             </div>
             <aside className={styles.right}>
               <BookingCard
@@ -177,7 +185,10 @@ export default function App() {
               onShowAll={() => toast('All 19 reviews are shown on this page')}
             />
             <LocationMap location={listing.location} />
-            <HostSection host={listing.host} onMessage={() => toast('Messaging is not available in this demo')} />
+            <HostSection
+              host={listing.host}
+              onMessage={() => toast('Messaging is not available in this demo')}
+            />
             <ThingsToKnow items={listing.thingsToKnow} />
             <SimilarStays items={listing.similar} />
           </div>
@@ -198,9 +209,18 @@ export default function App() {
         onSave={toggleSave}
       />
 
-      <Lightbox photos={photos} index={modal.lightboxIndex} onChange={modal.setLightboxIndex} onClose={closeLightbox} />
+      <Lightbox
+        photos={photos}
+        index={modal.lightboxIndex}
+        onChange={modal.setLightboxIndex}
+        onClose={closeLightbox}
+      />
 
-      <AmenitiesModal open={amenitiesOpen} groups={listing.amenityGroups} onClose={() => setAmenitiesOpen(false)} />
+      <AmenitiesModal
+        open={amenitiesOpen}
+        groups={listing.amenityGroups}
+        onClose={() => setAmenitiesOpen(false)}
+      />
 
       <Toast message={message} />
     </>

@@ -45,7 +45,12 @@ function Description({ text, notice }) {
         </span>
       </div>
       <p className={expanded ? '' : styles.clamped}>{text}</p>
-      <button type="button" className={styles.showMore} onClick={() => setExpanded((v) => !v)} aria-expanded={expanded}>
+      <button
+        type="button"
+        className={styles.showMore}
+        onClick={() => setExpanded((v) => !v)}
+        aria-expanded={expanded}
+      >
         {expanded ? 'Show less' : 'Show more'}{' '}
         <span className={styles.chevron}>
           <Icons.ChevronRightSm />

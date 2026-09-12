@@ -36,7 +36,7 @@ export function useModalParams() {
     const href = url.pathname + (url.search ? url.search : '') + url.hash;
     if (replace) window.history.replaceState(null, '', href);
     else window.history.pushState(null, '', href);
-    setState({ tour: Boolean(next.tour), index: next.tour ? next.index ?? null : null });
+    setState({ tour: Boolean(next.tour), index: next.tour ? (next.index ?? null) : null });
   }, []);
 
   return useMemo(

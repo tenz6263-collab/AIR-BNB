@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Back, Heart, Share } from '../icons';
 import { IconButton } from '../ui/IconButton';
 import { useBodyLock } from '../../hooks/useBodyLock';
@@ -44,6 +44,12 @@ export function PhotoTour({
   const scrollRef = useRef(null);
   const backRef = useRef(null);
   const thumbRefs = useRef([]);
+  // Photos are only mounted once the tour has been opened, so the listing
+  // page does not download all 43 full-size images up front.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    if (open) setMounted(true);
+  }, [open]);
 
   useBodyLock(open);
   useFocusTrap(panelRef, open && !lightboxOpen, { initialFocus: () => backRef.current });
@@ -115,7 +121,8 @@ export function PhotoTour({
         <div className={styles.actions}>
           <IconButton icon={Share} label="Share" onClick={onShare} />
           <IconButton
-            icon={(p) => <Heart {...p} style={saved ? { fill: 'currentColor', color: '#ff385c' } : undefined} />}
+            icon={Heart}
+            iconStyle={saved ? { fill: 'currentColor', color: 'var(--rausch)' } : undefined}
             label={saved ? 'Saved' : 'Save'}
             onClick={onSave}
             aria-pressed={saved}
@@ -124,61 +131,72 @@ export function PhotoTour({
       </header>
 
       <div className={styles.scroll} ref={scrollRef}>
-        <div className={styles.content}>
-          <nav className={styles.categories} aria-label="Photo categories">
-            {rooms.map((room, i) => (
-              <button key={room.name} type="button" className={styles.category} aria-label={room.name} onClick={() => scrollToRoom(i)}>
-                <img loading="lazy" alt="" src={room.photos[0]} />
-                <span className={styles.categoryLabel}>{room.name}</span>
-              </button>
-            ))}
-          </nav>
+        {mounted && (
+          <div className={styles.content}>
+            <nav className={styles.categories} aria-label="Photo categories">
+              {rooms.map((room, i) => (
+                <button
+                  key={room.name}
+                  type="button"
+                  className={styles.category}
+                  aria-label={room.name}
+                  onClick={() => scrollToRoom(i)}
+                >
+                  <img loading="lazy" alt="" src={room.photos[0]} />
+                  <span className={styles.categoryLabel}>{room.name}</span>
+                </button>
+              ))}
+            </nav>
 
-          <div>
-            {rooms.map((room, roomIndex) => {
-              const rows = chunkPhotos(room.photos.length);
-              let cursor = 0;
-              return (
-                <section className={styles.room} id={`tour-room-${roomIndex}`} key={room.name}>
-                  <div className={styles.roomInfo}>
-                    <div className={styles.roomName}>{room.name}</div>
-                    {room.features.length > 0 && (
-                      <div className={styles.roomFeatures}>{room.features.join('  ·  ')}</div>
-                    )}
-                  </div>
-                  <div className={styles.roomPhotos}>
-                    {rows.map((size, rowIndex) => {
-                      const slice = room.photos.slice(cursor, cursor + size);
-                      const startIndex = cursor;
-                      cursor += size;
-                      return (
-                        <div className={`${styles.row} ${size === 1 ? styles.rowSingle : styles.rowPair}`} key={rowIndex}>
-                          {slice.map((src, j) => {
-                            const globalIndex = roomOffsets[roomIndex] + startIndex + j;
-                            return (
-                              <button
-                                key={src + globalIndex}
-                                type="button"
-                                className={styles.photo}
-                                aria-label={`${title} image ${globalIndex + 1}`}
-                                ref={(el) => {
-                                  thumbRefs.current[globalIndex] = el;
-                                }}
-                                onClick={() => onOpenPhoto(globalIndex, () => focusPhoto(globalIndex))}
-                              >
-                                <img loading="lazy" alt={room.name} src={src} />
-                              </button>
-                            );
-                          })}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </section>
-              );
-            })}
+            <div>
+              {rooms.map((room, roomIndex) => {
+                const rows = chunkPhotos(room.photos.length);
+                let cursor = 0;
+                return (
+                  <section className={styles.room} id={`tour-room-${roomIndex}`} key={room.name}>
+                    <div className={styles.roomInfo}>
+                      <div className={styles.roomName}>{room.name}</div>
+                      {room.features.length > 0 && (
+                        <div className={styles.roomFeatures}>{room.features.join('  ·  ')}</div>
+                      )}
+                    </div>
+                    <div className={styles.roomPhotos}>
+                      {rows.map((size, rowIndex) => {
+                        const slice = room.photos.slice(cursor, cursor + size);
+                        const startIndex = cursor;
+                        cursor += size;
+                        return (
+                          <div
+                            className={`${styles.row} ${size === 1 ? styles.rowSingle : styles.rowPair}`}
+                            key={rowIndex}
+                          >
+                            {slice.map((src, j) => {
+                              const globalIndex = roomOffsets[roomIndex] + startIndex + j;
+                              return (
+                                <button
+                                  key={src + globalIndex}
+                                  type="button"
+                                  className={styles.photo}
+                                  aria-label={`${title} image ${globalIndex + 1}`}
+                                  ref={(el) => {
+                                    thumbRefs.current[globalIndex] = el;
+                                  }}
+                                  onClick={() => onOpenPhoto(globalIndex, () => focusPhoto(globalIndex))}
+                                >
+                                  <img loading="lazy" alt={room.name} src={src} />
+                                </button>
+                              );
+                            })}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </section>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

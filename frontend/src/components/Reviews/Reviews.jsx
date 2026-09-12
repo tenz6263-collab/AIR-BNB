@@ -10,7 +10,13 @@ function ReviewCard({ review }) {
   return (
     <article className={styles.review}>
       <div className={styles.reviewHead}>
-        <Avatar src={review.avatar} initial={review.initial} bg={review.bg} fg={review.fg} name={review.name} />
+        <Avatar
+          src={review.avatar}
+          initial={review.initial}
+          bg={review.bg}
+          fg={review.fg}
+          name={review.name}
+        />
         <div>
           <div className={styles.reviewer}>{review.name}</div>
           <div className={styles.tenure}>{review.tenure}</div>

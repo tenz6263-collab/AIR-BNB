@@ -13,7 +13,6 @@ export function Lightbox({ photos, index, onChange, onClose }) {
   const panelRef = useRef(null);
   const closeRef = useRef(null);
   const [animKey, setAnimKey] = useState(0);
-  const [direction, setDirection] = useState(0);
   const lastIndex = useRef(index);
 
   useFocusTrap(panelRef, open, { initialFocus: () => closeRef.current });
@@ -26,7 +25,6 @@ export function Lightbox({ photos, index, onChange, onClose }) {
     if (!open) return;
     const next = index + delta;
     if (next < 0 || next >= photos.length) return;
-    setDirection(delta);
     onChange(next);
   };
 
@@ -97,14 +95,7 @@ export function Lightbox({ photos, index, onChange, onClose }) {
       </button>
 
       <div className={styles.stage}>
-        {photo && (
-          <img
-            key={animKey}
-            src={photo.src}
-            alt={photo.room}
-            className={`${styles.image} ${direction >= 0 ? styles.fromRight : styles.fromLeft}`}
-          />
-        )}
+        {photo && <img key={animKey} src={photo.src} alt={photo.room} className={styles.image} />}
       </div>
 
       <button

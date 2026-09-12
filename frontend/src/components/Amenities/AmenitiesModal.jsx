@@ -33,7 +33,13 @@ export function AmenitiesModal({ open, groups, onClose }) {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className={styles.dialog} role="dialog" aria-modal="true" aria-label="What this place offers" ref={dialogRef}>
+      <div
+        className={styles.dialog}
+        role="dialog"
+        aria-modal="true"
+        aria-label="What this place offers"
+        ref={dialogRef}
+      >
         <div className={styles.head}>
           <IconButton ref={closeRef} icon={Close} label="Close" className={styles.close} onClick={onClose} />
         </div>

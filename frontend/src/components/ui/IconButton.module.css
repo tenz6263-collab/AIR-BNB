@@ -7,7 +7,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.16s, transform 0.08s;
+  transition:
+    background 0.16s,
+    transform 0.08s;
 }
 
 .button:hover {

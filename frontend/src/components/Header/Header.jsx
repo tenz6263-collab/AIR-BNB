@@ -13,7 +13,12 @@ export function Header() {
 
         <div className={styles.search} role="search">
           <button className={styles.searchItem} type="button">
-            <img className={styles.searchHouse} src="/assets/images/ui/searchbar-house.png" alt="" aria-hidden="true" />
+            <img
+              className={styles.searchHouse}
+              src="/assets/images/ui/searchbar-house.png"
+              alt=""
+              aria-hidden="true"
+            />
             Anywhere
           </button>
           <span className={styles.divider} />

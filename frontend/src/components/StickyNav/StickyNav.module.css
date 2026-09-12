@@ -9,7 +9,9 @@
   transform: translateY(-100%);
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.25s ease, opacity 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
 }
 
 .visible {
@@ -103,7 +105,9 @@
   border-radius: 999px;
   padding: 0 20px;
   height: 40px;
-  transition: filter 0.15s, transform 0.05s;
+  transition:
+    filter 0.15s,
+    transform 0.05s;
 }
 
 .reserve:hover {

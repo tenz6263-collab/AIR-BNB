@@ -28,7 +28,9 @@ export function BookingCard({ booking, checkIn, checkOut, onReserve, onClaim, on
           {nights > 0 ? (
             <>
               <span className={styles.price}>{price}</span>
-              <span className={styles.nights}>for {nights} night{nights === 1 ? '' : 's'}</span>
+              <span className={styles.nights}>
+                for {nights} night{nights === 1 ? '' : 's'}
+              </span>
             </>
           ) : (
             <span className={styles.price}>Add dates for prices</span>

@@ -65,7 +65,9 @@
   line-height: 16px;
   font-weight: 500;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  transition: transform 0.1s, background 0.15s;
+  transition:
+    transform 0.1s,
+    background 0.15s;
 }
 
 .showAll:hover {

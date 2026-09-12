@@ -5,8 +5,18 @@ import styles from './Calendar.module.css';
 
 const WEEKDAYS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 const MONTHS = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 
 function Month({ year, month, checkIn, checkOut, blocked, onPick }) {
@@ -14,7 +24,8 @@ function Month({ year, month, checkIn, checkOut, blocked, onPick }) {
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const leading = first.getDay();
   const cells = [];
-  for (let i = 0; i < leading; i += 1) cells.push(<div key={`pad-${i}`} className={`${styles.day} ${styles.hidden}`} />);
+  for (let i = 0; i < leading; i += 1)
+    cells.push(<div key={`pad-${i}`} className={`${styles.day} ${styles.hidden}`} />);
   for (let d = 1; d <= daysInMonth; d += 1) {
     const iso = isoDate(new Date(year, month, d));
     const isStart = iso === checkIn;
@@ -78,7 +89,9 @@ export function Calendar({ booking, checkIn, checkOut, onChange }) {
     <section className={styles.section}>
       <div className={styles.head}>
         <div className={styles.title}>
-          {nights > 0 ? `${nights} night${nights === 1 ? '' : 's'} in ${booking.location}` : 'Select check-in date'}
+          {nights > 0
+            ? `${nights} night${nights === 1 ? '' : 's'} in ${booking.location}`
+            : 'Select check-in date'}
         </div>
         <div className={styles.subtitle}>
           {nights > 0 ? formatRangeLabel(checkIn, checkOut) : 'Add your travel dates for exact pricing'}
@@ -115,7 +128,11 @@ export function Calendar({ booking, checkIn, checkOut, onChange }) {
         <span className={styles.keyboard} aria-hidden="true">
           <Keyboard />
         </span>
-        <button type="button" className={styles.clear} onClick={() => onChange({ checkIn: null, checkOut: null })}>
+        <button
+          type="button"
+          className={styles.clear}
+          onClick={() => onChange({ checkIn: null, checkOut: null })}
+        >
           Clear dates
         </button>
       </div>

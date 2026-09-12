@@ -38,7 +38,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s, transform 0.08s;
+  transition:
+    background 0.15s,
+    transform 0.08s;
 }
 
 .arrow:hover:not(:disabled) {

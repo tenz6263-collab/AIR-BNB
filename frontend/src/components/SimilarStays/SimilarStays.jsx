@@ -39,7 +39,13 @@ export function SimilarStays({ items }) {
           <span className={styles.counter}>
             {page + 1} / {pages}
           </span>
-          <button type="button" className={styles.arrow} onClick={() => go(page - 1)} disabled={page === 0} aria-label="Previous">
+          <button
+            type="button"
+            className={styles.arrow}
+            onClick={() => go(page - 1)}
+            disabled={page === 0}
+            aria-label="Previous"
+          >
             <span className={styles.arrowIcon}>
               <ChevronLeftSm />
             </span>
