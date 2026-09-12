@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { api } from './api/client';
 import { useListing } from './hooks/useListing';
 import { useKeyboardMode } from './hooks/useKeyboardMode';
 import { useScrollSpy } from './hooks/useScrollSpy';
-import { useModalParams } from './hooks/useModalParams';
+import { useOverlays } from './hooks/useOverlays';
+import { useWishlist } from './hooks/useWishlist';
 import { useToast } from './hooks/useToast';
 import { Header } from './components/Header/Header';
 import { StickyNav } from './components/StickyNav/StickyNav';
@@ -34,16 +34,12 @@ export default function App() {
   useKeyboardMode();
   const { listing, loading, error, retry } = useListing(SLUG);
   const { message, show: toast } = useToast();
-  const modal = useModalParams();
+  const overlays = useOverlays();
 
   const heroRef = useRef(null);
-  const tourOpenerRef = useRef(null);
-  const lightboxReturnFocus = useRef(null);
   const { active, showNav } = useScrollSpy(SECTIONS, { heroRef });
 
-  const [saved, setSaved] = useState(false);
   const [amenitiesOpen, setAmenitiesOpen] = useState(false);
-  const [tourScrollTarget, setTourScrollTarget] = useState(null);
   const [dates, setDates] = useState({ checkIn: null, checkOut: null });
 
   useEffect(() => {
@@ -53,24 +49,11 @@ export default function App() {
     }
   }, [listing]);
 
-  useEffect(() => {
-    api
-      .getWishlist(SLUG)
-      .then((r) => setSaved(r.saved))
-      .catch(() => {});
-  }, []);
-
-  const toggleSave = useCallback(async () => {
-    const next = !saved;
-    setSaved(next);
-    toast(next ? 'Saved to wishlist' : 'Removed from wishlist');
-    try {
-      const r = await api.toggleWishlist(SLUG);
-      setSaved(r.saved);
-    } catch {
-      setSaved(!next);
-    }
-  }, [saved, toast]);
+  const onSaveChange = useCallback(
+    (next) => toast(next ? 'Saved to wishlist' : 'Removed from wishlist'),
+    [toast],
+  );
+  const { saved, toggle: toggleSave } = useWishlist(SLUG, onSaveChange);
 
   // Mirrors the reference: the toast reads "Share options"; the link is also
   // copied to the clipboard when the browser allows it.
@@ -81,39 +64,8 @@ export default function App() {
 
   const reserve = useCallback(() => toast("You won't be charged yet"), [toast]);
 
-  const openTour = useCallback(
-    (target, opener) => {
-      tourOpenerRef.current = opener || document.activeElement;
-      setTourScrollTarget(target ?? null);
-      modal.openTour();
-    },
-    [modal],
-  );
-
-  const closeTour = useCallback(() => {
-    modal.closeTour();
-    const opener = tourOpenerRef.current;
-    if (opener && typeof opener.focus === 'function') {
-      setTimeout(() => opener.focus({ preventScroll: true }), 0);
-    }
-  }, [modal]);
-
-  const openLightbox = useCallback(
-    (index, returnFocus) => {
-      lightboxReturnFocus.current = returnFocus;
-      modal.openLightbox(index);
-    },
-    [modal],
-  );
-
-  const closeLightbox = useCallback(() => {
-    modal.closeLightbox();
-    const fn = lightboxReturnFocus.current;
-    if (fn) setTimeout(fn, 0);
-  }, [modal]);
-
   const photos = useMemo(() => listing?.photos ?? [], [listing]);
-  const overlayOpen = modal.tourOpen || amenitiesOpen;
+  const overlayOpen = overlays.tourOpen || amenitiesOpen;
 
   if (loading) return <PageSkeleton />;
   if (error || !listing) {
@@ -138,7 +90,7 @@ export default function App() {
         </a>
         <Header />
         <StickyNav
-          visible={showNav && !modal.tourOpen}
+          visible={showNav && !overlays.tourOpen}
           active={active}
           booking={listing.booking}
           rating={listing.rating}
@@ -153,8 +105,8 @@ export default function App() {
               ref={heroRef}
               photos={listing.heroPhotos}
               title={listing.title}
-              onOpen={(src) => openTour(src)}
-              onShowAll={() => openTour(null)}
+              onOpen={(src) => overlays.openTour(src)}
+              onShowAll={() => overlays.openTour(null)}
             />
 
             <div className={styles.columns}>
@@ -199,24 +151,24 @@ export default function App() {
       </div>
 
       <PhotoTour
-        open={modal.tourOpen}
+        open={overlays.tourOpen}
         rooms={listing.rooms}
         photos={photos}
         title={listing.title}
         saved={saved}
-        scrollTarget={tourScrollTarget}
-        lightboxOpen={modal.lightboxIndex !== null}
-        onClose={closeTour}
-        onOpenPhoto={openLightbox}
+        scrollTarget={overlays.tourScrollTarget}
+        lightboxOpen={overlays.lightboxIndex !== null}
+        onClose={overlays.closeTour}
+        onOpenPhoto={overlays.openLightbox}
         onShare={share}
         onSave={toggleSave}
       />
 
       <Lightbox
         photos={photos}
-        index={modal.lightboxIndex}
-        onChange={modal.setLightboxIndex}
-        onClose={closeLightbox}
+        index={overlays.lightboxIndex}
+        onChange={overlays.setLightboxIndex}
+        onClose={overlays.closeLightbox}
       />
 
       <AmenitiesModal

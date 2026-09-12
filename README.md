@@ -63,8 +63,8 @@ frontend/                Vite + React 18 + CSS Modules
   src/App.jsx            page composition and overlay state
   src/components/        one folder per component (jsx + module.css)
   src/components/icons/  generated inline-SVG icon components
-  src/hooks/             useListing, useScrollSpy, useModalParams,
-                         useFocusTrap, useBodyLock, useKeyboardMode, useToast
+  src/hooks/             useListing, useWishlist, useOverlays (+ useModalParams),
+                         useScrollSpy, useFocusTrap, useBodyLock, useKeyboardMode, useToast
   src/styles/            tokens.css (design tokens), global.css
 backend/                 Express + Mongoose
   src/app.js             middleware and routes
