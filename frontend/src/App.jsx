@@ -112,6 +112,7 @@ export default function App() {
   }, [modal]);
 
   const photos = useMemo(() => listing?.photos ?? [], [listing]);
+  const overlayOpen = modal.tourOpen || amenitiesOpen;
 
   if (loading) return <PageSkeleton />;
   if (error || !listing) {
@@ -125,69 +126,73 @@ export default function App() {
 
   return (
     <>
-      <a className="skip-link" href="#main">
-        Skip to content
-      </a>
-      <Header />
-      <StickyNav
-        visible={showNav && !modal.tourOpen}
-        active={active}
-        booking={listing.booking}
-        rating={listing.rating}
-        onReserve={reserve}
-      />
+      {/* Everything behind an overlay is made inert so assistive tech and Tab
+          cannot reach it while a dialog is open. */}
+      <div inert={overlayOpen ? '' : undefined}>
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
+        <Header />
+        <StickyNav
+          visible={showNav && !modal.tourOpen}
+          active={active}
+          booking={listing.booking}
+          rating={listing.rating}
+          onReserve={reserve}
+        />
 
-      <main id="main">
-        <div className="container">
-          <TitleBar title={listing.title} saved={saved} onShare={share} onSave={toggleSave} />
+        <main id="main">
+          <div className="container">
+            <TitleBar title={listing.title} saved={saved} onShare={share} onSave={toggleSave} />
 
-          <HeroGallery
-            ref={heroRef}
-            photos={listing.heroPhotos}
-            title={listing.title}
-            onOpen={(src) => openTour(src)}
-            onShowAll={() => openTour(null)}
-          />
-
-          <div className={styles.columns}>
-            <div className={styles.left}>
-              <Overview listing={listing} />
-              <Sleeping items={listing.sleeping} />
-              <Amenities
-                items={listing.amenityPreview}
-                total={listing.amenityCount}
-                onShowAll={() => setAmenitiesOpen(true)}
-              />
-              <Calendar
-                booking={listing.booking}
-                checkIn={dates.checkIn}
-                checkOut={dates.checkOut}
-                onChange={setDates}
-              />
-            </div>
-            <aside className={styles.right}>
-              <BookingCard
-                booking={listing.booking}
-                checkIn={dates.checkIn}
-                checkOut={dates.checkOut}
-                onReserve={reserve}
-              />
-            </aside>
-          </div>
-
-          <div className={styles.wide}>
-            <Reviews
-              summary={listing.reviewsSummary}
-              reviews={listing.reviews}
-              guestFavourite={listing.guestFavourite}
+            <HeroGallery
+              ref={heroRef}
+              photos={listing.heroPhotos}
+              title={listing.title}
+              onOpen={(src) => openTour(src)}
+              onShowAll={() => openTour(null)}
             />
-            <LocationMap location={listing.location} />
-            <HostSection host={listing.host} />
-            <ThingsToKnow items={listing.thingsToKnow} />
-            <SimilarStays items={listing.similar} />
+
+            <div className={styles.columns}>
+              <div className={styles.left}>
+                <Overview listing={listing} />
+                <Sleeping items={listing.sleeping} />
+                <Amenities
+                  items={listing.amenityPreview}
+                  total={listing.amenityCount}
+                  onShowAll={() => setAmenitiesOpen(true)}
+                />
+                <Calendar
+                  booking={listing.booking}
+                  checkIn={dates.checkIn}
+                  checkOut={dates.checkOut}
+                  onChange={setDates}
+                />
+              </div>
+              <aside className={styles.right}>
+                <BookingCard
+                  booking={listing.booking}
+                  checkIn={dates.checkIn}
+                  checkOut={dates.checkOut}
+                  onReserve={reserve}
+                />
+              </aside>
+            </div>
+
+            <div className={styles.wide}>
+              <Reviews
+                summary={listing.reviewsSummary}
+                reviews={listing.reviews}
+                guestFavourite={listing.guestFavourite}
+              />
+              <LocationMap location={listing.location} />
+              <HostSection host={listing.host} />
+              <ThingsToKnow items={listing.thingsToKnow} />
+              <SimilarStays items={listing.similar} />
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
 
       <PhotoTour
         open={modal.tourOpen}

@@ -76,6 +76,7 @@ const visible = (page, label) =>
     await wait(500);
     assert.equal(await active(page), 'Back');
     assert.equal(await page.evaluate(() => document.body.classList.contains('is-locked')), true);
+    assert.equal(await page.evaluate(() => document.querySelector('main').closest('[inert]') !== null), true);
     for (let i = 0; i < 13; i += 1) await page.keyboard.press('Tab');
     assert.match(await active(page), /image 2$/);
     await page.keyboard.press('Enter');
@@ -99,6 +100,7 @@ const visible = (page, label) =>
     await wait(300);
     assert.equal(await active(page), 'Show all photos');
     assert.equal(await page.evaluate(() => document.body.classList.contains('is-locked')), false);
+    assert.equal(await page.evaluate(() => document.querySelector('[inert]')), null);
   });
 
   await check('hero tile opens the tour scrolled to its room', async () => {
