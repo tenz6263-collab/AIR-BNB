@@ -1,0 +1,285 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1120" viewBox="0 0 1700 1120" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#4a4a4a"/>
+    </marker>
+    <marker id="arrowEvt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#c2410c"/>
+    </marker>
+    <style>
+      .zone { fill: #fafafa; stroke: #d9d9d9; stroke-dasharray: 6 5; rx: 14; }
+      .zoneTitle { font-size: 15px; font-weight: 700; fill: #6a6a6a; letter-spacing: .08em; }
+      .box { fill: #ffffff; stroke: #222; stroke-width: 1.4; rx: 10; }
+      .boxTitle { font-size: 14px; font-weight: 700; fill: #222; }
+      .boxSub { font-size: 11.5px; fill: #555; }
+      .svc { fill: #fff5f7; stroke: #ff385c; }
+      .data { fill: #f0f7ff; stroke: #2563eb; }
+      .infra { fill: #f3f4f6; stroke: #4b5563; }
+      .async { fill: #fff7ed; stroke: #c2410c; }
+      .edge { stroke: #4a4a4a; stroke-width: 1.4; fill: none; marker-end: url(#arrow); }
+      .evt { stroke: #c2410c; stroke-width: 1.4; fill: none; stroke-dasharray: 5 4; marker-end: url(#arrowEvt); }
+      .note { font-size: 11.5px; fill: #444; }
+      .scale { fill: #ecfdf5; stroke: #059669; rx: 8; }
+      .scaleTitle { font-size: 12.5px; font-weight: 700; fill: #065f46; }
+    </style>
+  </defs>
+
+  <rect width="1700" height="1120" fill="#ffffff"/>
+  <text x="40" y="44" font-size="26" font-weight="700" fill="#222">Vacation-rental marketplace - production architecture</text>
+  <text x="40" y="68" font-size="13.5" fill="#555">Scaling strategy for frontend, backend, storage, search and deployment. Prepared for the Airbnb listing-page clone (MERN) by Rishi Detroja.</text>
+
+  <!-- CLIENTS -->
+  <rect class="zone" x="40" y="100" width="300" height="250"/>
+  <text class="zoneTitle" x="56" y="124">CLIENTS</text>
+  <rect class="box" x="60" y="140" width="260" height="56"/>
+  <text class="boxTitle" x="76" y="163">Web app (React / Next.js)</text>
+  <text class="boxSub" x="76" y="181">SSR + ISR listing pages, hydrated islands</text>
+  <rect class="box" x="60" y="208" width="260" height="56"/>
+  <text class="boxTitle" x="76" y="231">iOS / Android (React Native)</text>
+  <text class="boxSub" x="76" y="249">Same BFF contracts, offline cache</text>
+  <rect class="box" x="60" y="276" width="260" height="56"/>
+  <text class="boxTitle" x="76" y="299">Host tools / partner API</text>
+  <text class="boxSub" x="76" y="317">OAuth2 clients, rate-limited keys</text>
+
+  <!-- EDGE -->
+  <rect class="zone" x="380" y="100" width="300" height="250"/>
+  <text class="zoneTitle" x="396" y="124">EDGE</text>
+  <rect class="box infra" x="400" y="140" width="260" height="56"/>
+  <text class="boxTitle" x="416" y="163">Global CDN (CloudFront / Vercel Edge)</text>
+  <text class="boxSub" x="416" y="181">Static assets, responsive image variants, HTML cache</text>
+  <rect class="box infra" x="400" y="208" width="260" height="56"/>
+  <text class="boxTitle" x="416" y="231">WAF + bot protection + DDoS</text>
+  <text class="boxSub" x="416" y="249">Geo routing, TLS termination</text>
+  <rect class="box infra" x="400" y="276" width="260" height="56"/>
+  <text class="boxTitle" x="416" y="299">API Gateway / BFF (GraphQL)</text>
+  <text class="boxSub" x="416" y="317">Auth, rate limits, per-client payload shaping</text>
+
+  <!-- SERVICES -->
+  <rect class="zone" x="720" y="100" width="640" height="420"/>
+  <text class="zoneTitle" x="736" y="124">CORE SERVICES  (Kubernetes, stateless, HPA autoscaled)</text>
+
+  <rect class="box svc" x="740" y="140" width="190" height="62"/>
+  <text class="boxTitle" x="754" y="163">Listing service</text>
+  <text class="boxSub" x="754" y="181">CRUD, amenities, rooms,</text>
+  <text class="boxSub" x="754" y="194">photo tour ordering</text>
+
+  <rect class="box svc" x="945" y="140" width="190" height="62"/>
+  <text class="boxTitle" x="959" y="163">Search &amp; discovery</text>
+  <text class="boxSub" x="959" y="181">Geo + date availability,</text>
+  <text class="boxSub" x="959" y="194">ML ranking, similar stays</text>
+
+  <rect class="box svc" x="1150" y="140" width="190" height="62"/>
+  <text class="boxTitle" x="1164" y="163">Booking service</text>
+  <text class="boxSub" x="1164" y="181">Reservations, calendar locks,</text>
+  <text class="boxSub" x="1164" y="194">saga orchestration</text>
+
+  <rect class="box svc" x="740" y="218" width="190" height="62"/>
+  <text class="boxTitle" x="754" y="241">Pricing &amp; availability</text>
+  <text class="boxSub" x="754" y="259">Nightly quotes, promos,</text>
+  <text class="boxSub" x="754" y="272">blocked dates</text>
+
+  <rect class="box svc" x="945" y="218" width="190" height="62"/>
+  <text class="boxTitle" x="959" y="241">Payments</text>
+  <text class="boxSub" x="959" y="259">PSP adapters (Stripe, UPI),</text>
+  <text class="boxSub" x="959" y="272">ledger, payouts, PCI scope</text>
+
+  <rect class="box svc" x="1150" y="218" width="190" height="62"/>
+  <text class="boxTitle" x="1164" y="241">Reviews &amp; ratings</text>
+  <text class="boxSub" x="1164" y="259">Aggregates, guest-favourite</text>
+  <text class="boxSub" x="1164" y="272">badge, moderation</text>
+
+  <rect class="box svc" x="740" y="296" width="190" height="62"/>
+  <text class="boxTitle" x="754" y="319">Identity &amp; wishlist</text>
+  <text class="boxSub" x="754" y="337">Users, hosts, sessions,</text>
+  <text class="boxSub" x="754" y="350">saved listings</text>
+
+  <rect class="box svc" x="945" y="296" width="190" height="62"/>
+  <text class="boxTitle" x="959" y="319">Messaging</text>
+  <text class="boxSub" x="959" y="337">Host-guest threads,</text>
+  <text class="boxSub" x="959" y="350">WebSocket fan-out</text>
+
+  <rect class="box svc" x="1150" y="296" width="190" height="62"/>
+  <text class="boxTitle" x="1164" y="319">Media service</text>
+  <text class="boxSub" x="1164" y="337">Upload, resize, WebP/AVIF,</text>
+  <text class="boxSub" x="1164" y="350">blurhash placeholders</text>
+
+  <rect class="box svc" x="740" y="374" width="190" height="62"/>
+  <text class="boxTitle" x="754" y="397">Notifications</text>
+  <text class="boxSub" x="754" y="415">Email / SMS / push,</text>
+  <text class="boxSub" x="754" y="428">templated, retried</text>
+
+  <rect class="box svc" x="945" y="374" width="190" height="62"/>
+  <text class="boxTitle" x="959" y="397">Trust &amp; safety</text>
+  <text class="boxSub" x="959" y="415">Fraud scoring, KYC,</text>
+  <text class="boxSub" x="959" y="428">content checks</text>
+
+  <rect class="box svc" x="1150" y="374" width="190" height="62"/>
+  <text class="boxTitle" x="1164" y="397">Experiments / flags</text>
+  <text class="boxSub" x="1164" y="415">A/B config, kill switches,</text>
+  <text class="boxSub" x="1164" y="428">gradual rollouts</text>
+
+  <rect class="box async" x="740" y="456" width="600" height="46"/>
+  <text class="boxTitle" x="754" y="479">Event bus (Kafka)  -  listing.updated, booking.confirmed, review.created, photo.processed</text>
+  <text class="boxSub" x="754" y="495">Async integration: search indexing, cache invalidation, analytics, notifications. Outbox pattern per service.</text>
+
+  <!-- DATA -->
+  <rect class="zone" x="40" y="560" width="1320" height="200"/>
+  <text class="zoneTitle" x="56" y="584">STORAGE</text>
+
+  <rect class="box data" x="60" y="600" width="200" height="140"/>
+  <text class="boxTitle" x="74" y="623">PostgreSQL (transactional)</text>
+  <text class="boxSub" x="74" y="641">Bookings, users, payments ledger</text>
+  <text class="boxSub" x="74" y="655">Primary + read replicas, sharded</text>
+  <text class="boxSub" x="74" y="669">Strong consistency for money</text>
+  <text class="boxSub" x="74" y="683">and calendar locks</text>
+
+  <rect class="box data" x="280" y="600" width="200" height="140"/>
+  <text class="boxTitle" x="294" y="623">MongoDB (listings, reviews)</text>
+  <text class="boxSub" x="294" y="641">Document per listing: rooms,</text>
+  <text class="boxSub" x="294" y="655">amenities, photo tour, host</text>
+  <text class="boxSub" x="294" y="669">Replica sets, zone sharding</text>
+  <text class="boxSub" x="294" y="683">(the MERN clone's model)</text>
+
+  <rect class="box data" x="500" y="600" width="200" height="140"/>
+  <text class="boxTitle" x="514" y="623">Redis cluster</text>
+  <text class="boxSub" x="514" y="641">Cache-aside for listing pages</text>
+  <text class="boxSub" x="514" y="655">Availability bitmaps per listing</text>
+  <text class="boxSub" x="514" y="669">Sessions, rate-limit counters</text>
+  <text class="boxSub" x="514" y="683">Pub/sub for messaging</text>
+
+  <rect class="box data" x="720" y="600" width="200" height="140"/>
+  <text class="boxTitle" x="734" y="623">OpenSearch / Elasticsearch</text>
+  <text class="boxSub" x="734" y="641">Geo-sharded listing index</text>
+  <text class="boxSub" x="734" y="655">Date-availability filters</text>
+  <text class="boxSub" x="734" y="669">Updated from Kafka (near real</text>
+  <text class="boxSub" x="734" y="683">time), rebuilt nightly</text>
+
+  <rect class="box data" x="940" y="600" width="200" height="140"/>
+  <text class="boxTitle" x="954" y="623">Object storage (S3)</text>
+  <text class="boxSub" x="954" y="641">Original photos + derived sizes</text>
+  <text class="boxSub" x="954" y="655">Lifecycle to cold storage</text>
+  <text class="boxSub" x="954" y="669">Served through the CDN with</text>
+  <text class="boxSub" x="954" y="683">signed URLs for private media</text>
+
+  <rect class="box data" x="1160" y="600" width="180" height="140"/>
+  <text class="boxTitle" x="1174" y="623">Warehouse + ML</text>
+  <text class="boxSub" x="1174" y="641">BigQuery / Snowflake</text>
+  <text class="boxSub" x="1174" y="655">Feature store, ranking</text>
+  <text class="boxSub" x="1174" y="669">and dynamic-pricing</text>
+  <text class="boxSub" x="1174" y="683">models, dashboards</text>
+
+  <!-- PLATFORM -->
+  <rect class="zone" x="40" y="790" width="1320" height="150"/>
+  <text class="zoneTitle" x="56" y="814">DEPLOYMENT &amp; OPERATIONS</text>
+  <rect class="box infra" x="60" y="830" width="240" height="92"/>
+  <text class="boxTitle" x="74" y="853">CI/CD (GitHub Actions)</text>
+  <text class="boxSub" x="74" y="871">Lint, unit + visual-parity tests,</text>
+  <text class="boxSub" x="74" y="885">container build, SBOM scan,</text>
+  <text class="boxSub" x="74" y="899">canary -&gt; 10% -&gt; 100% rollout</text>
+
+  <rect class="box infra" x="320" y="830" width="240" height="92"/>
+  <text class="boxTitle" x="334" y="853">Kubernetes, multi-region</text>
+  <text class="boxSub" x="334" y="871">Active-active regions, HPA on</text>
+  <text class="boxSub" x="334" y="885">RPS / latency, pod disruption</text>
+  <text class="boxSub" x="334" y="899">budgets, blue-green DB migrations</text>
+
+  <rect class="box infra" x="580" y="830" width="240" height="92"/>
+  <text class="boxTitle" x="594" y="853">Observability</text>
+  <text class="boxSub" x="594" y="871">OpenTelemetry traces, Prometheus</text>
+  <text class="boxSub" x="594" y="885">+ Grafana, Sentry, structured logs,</text>
+  <text class="boxSub" x="594" y="899">SLOs with error budgets</text>
+
+  <rect class="box infra" x="840" y="830" width="240" height="92"/>
+  <text class="boxTitle" x="854" y="853">Infrastructure as code</text>
+  <text class="boxSub" x="854" y="871">Terraform modules, secrets in</text>
+  <text class="boxSub" x="854" y="885">Vault / KMS, least-privilege IAM,</text>
+  <text class="boxSub" x="854" y="899">automated backups + DR drills</text>
+
+  <rect class="box infra" x="1100" y="830" width="240" height="92"/>
+  <text class="boxTitle" x="1114" y="853">Frontend delivery</text>
+  <text class="boxSub" x="1114" y="871">Vercel / edge SSR, route-level</text>
+  <text class="boxSub" x="1114" y="885">code splitting, image CDN,</text>
+  <text class="boxSub" x="1114" y="899">preview deploys per PR</text>
+
+  <!-- SCALING NOTES -->
+  <rect class="scale" x="1390" y="100" width="270" height="840"/>
+  <text class="scaleTitle" x="1406" y="126">SCALING STRATEGY</text>
+
+  <text class="scaleTitle" x="1406" y="156">Frontend</text>
+  <text class="note" x="1406" y="174">SSR + ISR: listing HTML cached at the</text>
+  <text class="note" x="1406" y="188">edge, revalidated on listing.updated.</text>
+  <text class="note" x="1406" y="202">Route-level code splitting; photo tour</text>
+  <text class="note" x="1406" y="216">and lightbox lazy-loaded. Responsive</text>
+  <text class="note" x="1406" y="230">image variants + blurhash placeholders.</text>
+
+  <text class="scaleTitle" x="1406" y="262">Backend</text>
+  <text class="note" x="1406" y="280">Stateless services behind the BFF,</text>
+  <text class="note" x="1406" y="294">autoscaled on RPS and p95 latency.</text>
+  <text class="note" x="1406" y="308">Read-heavy paths served from Redis</text>
+  <text class="note" x="1406" y="322">(cache-aside, event invalidation).</text>
+  <text class="note" x="1406" y="336">Bookings use DB row locks + saga for</text>
+  <text class="note" x="1406" y="350">payment; idempotency keys everywhere.</text>
+
+  <text class="scaleTitle" x="1406" y="382">Storage</text>
+  <text class="note" x="1406" y="400">Postgres for transactional data with</text>
+  <text class="note" x="1406" y="414">read replicas + sharding; MongoDB for</text>
+  <text class="note" x="1406" y="428">rich listing documents; S3 + CDN for</text>
+  <text class="note" x="1406" y="442">media. CDC into the warehouse.</text>
+
+  <text class="scaleTitle" x="1406" y="474">Search</text>
+  <text class="note" x="1406" y="492">Geo-sharded OpenSearch index kept</text>
+  <text class="note" x="1406" y="506">fresh from Kafka; availability</text>
+  <text class="note" x="1406" y="520">bitmaps in Redis filter dates before</text>
+  <text class="note" x="1406" y="534">ranking; ML re-ranker on top-K.</text>
+
+  <text class="scaleTitle" x="1406" y="566">Deployment</text>
+  <text class="note" x="1406" y="584">Multi-region active-active on K8s,</text>
+  <text class="note" x="1406" y="598">canary releases gated by SLOs,</text>
+  <text class="note" x="1406" y="612">feature flags for instant rollback,</text>
+  <text class="note" x="1406" y="626">IaC + automated DR.</text>
+
+  <text class="scaleTitle" x="1406" y="658">Reliability targets</text>
+  <text class="note" x="1406" y="676">99.95% availability for browse,</text>
+  <text class="note" x="1406" y="690">99.99% for checkout; p95 listing page</text>
+  <text class="note" x="1406" y="704">TTFB &lt; 200 ms from edge cache.</text>
+
+  <text class="scaleTitle" x="1406" y="736">How the clone maps</text>
+  <text class="note" x="1406" y="754">frontend/ = Web app (React, Vite)</text>
+  <text class="note" x="1406" y="768">backend/  = Listing + wishlist API</text>
+  <text class="note" x="1406" y="782">MongoDB   = listing document store</text>
+  <text class="note" x="1406" y="796">public/assets = CDN-served media</text>
+  <text class="note" x="1406" y="810">In-memory fallback = cache layer</text>
+
+  <!-- FLOWS -->
+  <path class="edge" d="M320 168 H400"/>
+  <path class="edge" d="M320 236 H400"/>
+  <path class="edge" d="M320 304 H400"/>
+  <path class="edge" d="M530 196 V208"/>
+  <path class="edge" d="M530 264 V276"/>
+  <path class="edge" d="M660 304 H740"/>
+  <path class="edge" d="M660 304 C700 304 700 249 740 249"/>
+  <path class="edge" d="M660 304 C700 304 700 171 740 171"/>
+  <path class="edge" d="M660 304 C700 304 700 327 740 327"/>
+  <path class="edge" d="M660 304 C700 304 700 405 740 405"/>
+
+  <!-- services -> storage (routed from the zone edge so nothing crosses a box) -->
+  <path class="edge" d="M780 520 C780 560 200 540 160 600"/>
+  <text class="note" x="600" y="548">Booking / Identity / Payments</text>
+  <path class="edge" d="M840 520 C840 560 400 560 380 600"/>
+  <text class="note" x="560" y="590">Listing / Reviews</text>
+  <path class="edge" d="M900 520 C900 560 620 560 600 600"/>
+  <path class="edge" d="M960 520 C960 560 830 560 820 600"/>
+  <path class="edge" d="M1230 520 C1230 560 1050 560 1040 600"/>
+  <text class="note" x="1060" y="548">Media</text>
+  <text class="note" x="880" y="548">Search</text>
+  <text class="note" x="760" y="590">Cache</text>
+
+  <!-- events -->
+  <path class="evt" d="M1300 520 C1300 570 1260 570 1250 600"/>
+  <text class="note" x="1265" y="548">CDC / events</text>
+  <path class="evt" d="M1000 520 C1000 575 850 575 830 600"/>
+  <path class="evt" d="M860 520 C860 580 640 580 620 600"/>
+
+  <text class="note" x="60" y="985">Solid arrows: synchronous request path.  Dashed orange: asynchronous events (index updates, cache invalidation, CDC).  The CDN pulls media from S3 and caches HTML from the web app.</text>
+  <text class="note" x="60" y="1005">Colours: pink = domain services, blue = data stores, grey = platform / edge, orange = messaging, green = scaling notes.</text>
+</svg>
