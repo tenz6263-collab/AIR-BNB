@@ -10,9 +10,17 @@ Author: Rishi Detroja
 
 ## Quick start
 
+Requires Node 18+ (Node 22 used during development).
+
 ```bash
 npm install          # installs root, backend and frontend dependencies
 npm run dev          # API on http://localhost:4000, app on http://localhost:5173
+```
+
+Production-style run (single port, the API serves the built frontend):
+
+```bash
+npm run build && npm start   # http://localhost:4000
 ```
 
 MongoDB is optional. Copy `backend/.env.example` to `backend/.env` and set
@@ -21,7 +29,9 @@ start, or run `npm run seed`). Without it the API serves the bundled dataset
 from memory so the page works out of the box.
 
 ```bash
-npm run build        # production build of the frontend -> frontend/dist
+npm test             # API tests (node:test) + frontend utility tests
+npm run lint --prefix frontend
+node scripts/snapshot.js     # headless screenshots of every view -> .snapshots/
 npm run package      # creates airbnb-clone-submission.zip (no node_modules)
 ```
 

@@ -11,7 +11,7 @@ const out = path.join(root, 'airbnb-clone-submission.zip');
 const staging = fs.mkdtempSync(path.join(os.tmpdir(), 'abnb-'));
 const target = path.join(staging, 'airbnb-clone');
 
-const SKIP = new Set(['node_modules', 'dist', '.git', '.env', 'airbnb-clone-submission.zip']);
+const SKIP = new Set(['node_modules', 'dist', '.git', '.env', '.snapshots', 'airbnb-clone-submission.zip']);
 
 function copy(src, dest) {
   const stat = fs.statSync(src);

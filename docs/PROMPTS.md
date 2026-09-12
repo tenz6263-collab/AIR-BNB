@@ -118,3 +118,20 @@ Output: `docs/architecture.svg` (+ PNG and PDF renders).
 > zip without `node_modules`.
 
 Output: `package.json`, `README.md`, `scripts/package.js`.
+
+## 11. Quality tooling
+
+> Add API tests with the built-in Node test runner (health, listing shape,
+> 404, wishlist toggle per visitor), unit tests for the date and photo-row
+> helpers, an ESLint 9 flat config with react/hooks rules, and a headless
+> Chrome snapshot script that captures every view for visual review.
+
+Output: `backend/test/api.test.js`, `frontend/src/utils/__tests__/`,
+`frontend/eslint.config.js`, `scripts/snapshot.js`.
+
+## 12. Production run
+
+> Let the Express API serve `frontend/dist` with an SPA fallback so the
+> whole app runs from one port after `npm run build && npm start`.
+
+Output: static serving in `backend/src/app.js`, README updated.
