@@ -186,3 +186,16 @@ Output: `render.yaml` Blueprint (API web service + static site, linked via
 CORS with tests, `trust proxy`, `engines` pins, `docs/DEPLOY.md`. Rehearsed
 locally by serving the static bundle on a second port against the API with
 CORS restricted to that origin (7/7 e2e).
+
+## 17. Make every control functional
+
+> Don't leave this as UI only - make all features work without breaking the
+> UI components.
+
+Output: reservation API (quote, create with validation + overlap check,
+cancel, blocked dates), messages and reports endpoints, Mongo-or-memory
+store; shared `Modal`; guests picker, promo claim with live pricing, reserve
+dialog with server-priced breakdown and confirmation, message-host and
+report forms, reviews browser with search + topic filter, "How reviews work"
+and policy dialogs. Landmarks re-measured before/after: identical. e2e grew
+to 9 checks covering the new flows; backend tests 16.

@@ -18,7 +18,13 @@ export const HeroGallery = forwardRef(function HeroGallery({ photos, title, onOp
             aria-label={`${title} image ${i + 1}`}
             onClick={() => onOpen(src)}
           >
-            <img src={src} alt="" decoding="async" loading="eager" fetchPriority={i === 0 ? 'high' : 'auto'} />
+            <img
+              src={src}
+              alt=""
+              decoding="async"
+              loading="eager"
+              fetchPriority={i === 0 ? 'high' : 'auto'}
+            />
           </button>
         ))}
       </div>

@@ -156,6 +156,90 @@ const visible = (page, label) =>
     assert.deepEqual(await at(4100), [true, 'Location']);
   });
 
+  await check('guests picker, promo claim and reserve flow', async () => {
+    await page.goto(base, { waitUntil: 'networkidle0' });
+    await page.evaluate(() => localStorage.removeItem('abnb.promoClaimed'));
+    await page.reload({ waitUntil: 'networkidle0' });
+    // guests
+    await page.click('[data-guests-toggle]');
+    await wait(200);
+    await page.click('[aria-label="Add children"]');
+    await wait(100);
+    const label = await page.$eval('[data-guests-toggle]', (b) => b.textContent);
+    assert.match(label, /3 guests/);
+    const addDisabled = await page.$eval('[aria-label="Add adults"]', (b) => b.disabled);
+    assert.equal(addDisabled, true, 'max guests enforced');
+    await page.keyboard.press('Escape');
+    await wait(150);
+    // promo
+    await page.click('button::-p-text(Claim)');
+    await wait(150);
+    const priceText = await page.$eval('[class*=priceRow]', (e) => e.textContent);
+    assert.match(priceText, /25,649/);
+    // reserve
+    await page.click('[class*=sticky] button::-p-text(Reserve)');
+    await wait(400);
+    assert.equal(await active(page), 'Close');
+    await page.click('button::-p-text(Confirm and reserve)');
+    await wait(800);
+    const booked = await page.evaluate(() => document.body.innerText.includes("You're booked!"));
+    assert.equal(booked, true);
+    await page.click('button::-p-text(Done)');
+    await wait(400);
+    const reserved = await page.evaluate(() => document.body.innerText.includes('Reserved · 18 Oct 2026 - 23 Oct 2026'));
+    assert.equal(reserved, true);
+    const blocked = await page.$eval('[aria-label="20 October 2026"]', (b) => b.disabled);
+    assert.equal(blocked, true, 'reserved nights are blocked in the calendar');
+    // second booking on the same dates must fail server-side (different visitor)
+    await page.evaluate(() => localStorage.setItem('abnb.visitorId', 'someone-else'));
+    await page.reload({ waitUntil: 'networkidle0' });
+    await page.click('[class*=sticky] button::-p-text(Reserve)');
+    await wait(400);
+    await page.click('button::-p-text(Confirm and reserve)');
+    await wait(800);
+    const err = await page.evaluate(() => document.querySelector('[role=alert]')?.textContent || '');
+    assert.match(err, /not available/);
+    await page.keyboard.press('Escape');
+    // cancel the original reservation
+    await page.evaluate(() => localStorage.removeItem('abnb.visitorId'));
+  });
+
+  await check('message host, report, reviews and policy dialogs', async () => {
+    await page.goto(base, { waitUntil: 'networkidle0' });
+    await page.click('button::-p-text(Message host)');
+    await wait(400);
+    await page.type('#hostMessage', 'Is early check-in possible?');
+    await page.click('button::-p-text(Send message)');
+    await wait(600);
+    assert.match(await page.$eval('[role=status]', (e) => e.textContent), /Message sent/);
+
+    await page.click('a::-p-text(Report this listing)');
+    await wait(400);
+    await page.click('button::-p-text(Submit report)');
+    await wait(600);
+    assert.match(await page.$eval('[role=status]', (e) => e.textContent), /Thanks/);
+
+    await page.click('button::-p-text(Hot tub)');
+    await wait(200);
+    const cards = await page.$$eval('#reviews article', (a) => a.length);
+    assert.equal(cards, 1, 'chip filters reviews');
+    await page.click('button::-p-text(Show all 19 reviews)');
+    await wait(500);
+    assert.equal(await visible(page, '19 reviews'), true);
+    await page.keyboard.press('Escape');
+    await wait(300);
+
+    await page.click('a::-p-text(Learn more)');
+    await wait(400);
+    assert.equal(await visible(page, 'Cancellation policy'), true);
+    await page.keyboard.press('Escape');
+    await wait(300);
+    await page.click('button::-p-text(How reviews work)');
+    await wait(400);
+    assert.equal(await visible(page, 'How reviews work'), true);
+    await page.keyboard.press('Escape');
+  });
+
   await browser.close();
   for (const [status, name] of results) console.log(`${status.padEnd(4)} ${name}`);
   const failed = results.filter(([s]) => s === 'FAIL').length;

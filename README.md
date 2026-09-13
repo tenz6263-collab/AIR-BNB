@@ -51,6 +51,13 @@ npm run package      # creates airbnb-clone-submission.zip (no node_modules)
 | Photo tour | Full-screen panel that slides up, 8-column category grid that smooth-scrolls to each room, sticky room titles, 1-2-1-2 photo rows with hover zoom. Opened from *Show all photos* or any hero tile (which scrolls to that photo's room). URL: `?modal=PHOTO_TOUR_SCROLLABLE`. |
 | Lightbox | Single photo viewer with prev/next, `n of 43` counter, ArrowLeft/ArrowRight, Escape back to the tour, neighbour preloading. URL: `&modalItem=1000+index`. |
 
+Functional features (all backed by the API, persisted in MongoDB or in memory):
+guest picker with the 3-guest limit, promo claim (10% off, price updates
+everywhere), reservation flow with server-side pricing, overlap checks,
+blocked dates in the calendar and cancellation; message the host; report the
+listing; topic chips that filter reviews; full reviews browser with search;
+"How reviews work" and policy dialogs; wishlist save.
+
 Accessibility: skip link, semantic buttons with labels, `role="dialog"` +
 `aria-modal`, focus trapping, focus restoration to the opener, keyboard-only
 focus rings (`body.kbd`), `aria-live` toast, `prefers-reduced-motion`.
@@ -87,6 +94,11 @@ docs/                    architecture diagram (svg/png/pdf), PROMPTS.md
 | GET | `/api/listings/:slug/wishlist` | `{ saved }` for the `x-visitor-id` header |
 | POST | `/api/listings/:slug/wishlist` | Toggles the saved state |
 | PUT / DELETE | `/api/listings/:slug/wishlist` | Sets / clears the saved state (idempotent) |
+| GET | `/api/listings/:slug/quote?checkIn&checkOut&promo` | Server-side price breakdown |
+| GET / POST | `/api/listings/:slug/reservations` | Visitor's reservations + blocked dates / create (validates dates, guests, overlaps) |
+| DELETE | `/api/listings/:slug/reservations/:id` | Cancel a reservation |
+| POST | `/api/listings/:slug/messages` | Message the host |
+| POST | `/api/listings/:slug/reports` | Report the listing |
 
 ## AI workflow
 

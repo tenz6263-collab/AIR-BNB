@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { reviewsForTopic } from '../../utils/reviews';
 import * as Icons from '../icons';
 import { Avatar } from '../ui/Avatar';
 import { Button } from '../ui/Button';
@@ -37,7 +38,9 @@ function ReviewCard({ review }) {
   );
 }
 
-export function Reviews({ summary, reviews, guestFavourite }) {
+export function Reviews({ summary, reviews, guestFavourite, onShowAll, onHowReviewsWork }) {
+  const [topic, setTopic] = useState(null);
+  const visible = useMemo(() => reviewsForTopic(reviews, topic), [reviews, topic]);
   return (
     <section className={styles.section} id="reviews">
       <div className={styles.hero}>
@@ -48,7 +51,7 @@ export function Reviews({ summary, reviews, guestFavourite }) {
         </div>
         <div className={styles.favTitle}>{guestFavourite.label}</div>
         <div className={styles.favText}>{guestFavourite.reviewsDescription}</div>
-        <button type="button" className={styles.howLink}>
+        <button type="button" className={styles.howLink} onClick={onHowReviewsWork}>
           How reviews work
         </button>
       </div>
@@ -81,7 +84,13 @@ export function Reviews({ summary, reviews, guestFavourite }) {
 
       <div className={styles.chips}>
         {summary.chips.map((chip) => (
-          <button type="button" className={styles.chip} key={chip.label}>
+          <button
+            type="button"
+            className={`${styles.chip} ${topic === chip.label ? styles.chipOn : ''}`}
+            key={chip.label}
+            aria-pressed={topic === chip.label}
+            onClick={() => setTopic(topic === chip.label ? null : chip.label)}
+          >
             <img className={styles.chipIcon} src={chip.image} alt="" aria-hidden="true" />
             {chip.label} <span className={styles.chipCount}>{chip.count}</span>
           </button>
@@ -89,12 +98,13 @@ export function Reviews({ summary, reviews, guestFavourite }) {
       </div>
 
       <div className={styles.grid}>
-        {reviews.map((review) => (
+        {visible.map((review) => (
           <ReviewCard key={review.name + review.date} review={review} />
         ))}
+        {visible.length === 0 && <p className={styles.empty}>No reviews mention {topic} yet.</p>}
       </div>
 
-      <Button variant="outline">
+      <Button variant="outline" onClick={() => onShowAll(topic)}>
         Show all {summary.count} reviews
       </Button>
     </section>

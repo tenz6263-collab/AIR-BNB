@@ -1,7 +1,7 @@
 import * as Icons from '../icons';
 import styles from './ThingsToKnow.module.css';
 
-export function ThingsToKnow({ items }) {
+export function ThingsToKnow({ items, onLearnMore }) {
   return (
     <section className={styles.section}>
       <h2 className={styles.heading}>Things to know</h2>
@@ -15,7 +15,14 @@ export function ThingsToKnow({ items }) {
               {item.lines.map((line) => (
                 <p key={line}>{line}</p>
               ))}
-              <a className={styles.more} href="#">
+              <a
+                className={styles.more}
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onLearnMore(item.title);
+                }}
+              >
                 Learn more
               </a>
             </div>

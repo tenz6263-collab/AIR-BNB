@@ -34,8 +34,21 @@ async function request(path, options = {}) {
   return res.json();
 }
 
+const json = (body) => ({ body: JSON.stringify(body) });
+
 export const api = {
   getListing: (slug) => request(`/listings/${slug}`),
   getWishlist: (slug) => request(`/listings/${slug}/wishlist`),
   toggleWishlist: (slug) => request(`/listings/${slug}/wishlist`, { method: 'POST' }),
+  getQuote: (slug, { checkIn, checkOut, promo }) =>
+    request(
+      `/listings/${slug}/quote?checkIn=${checkIn}&checkOut=${checkOut}&promo=${promo ? 'true' : 'false'}`,
+    ),
+  getReservations: (slug) => request(`/listings/${slug}/reservations`),
+  createReservation: (slug, payload) =>
+    request(`/listings/${slug}/reservations`, { method: 'POST', ...json(payload) }),
+  cancelReservation: (slug, id) => request(`/listings/${slug}/reservations/${id}`, { method: 'DELETE' }),
+  sendMessage: (slug, body) => request(`/listings/${slug}/messages`, { method: 'POST', ...json({ body }) }),
+  reportListing: (slug, reason, body) =>
+    request(`/listings/${slug}/reports`, { method: 'POST', ...json({ reason, body }) }),
 };

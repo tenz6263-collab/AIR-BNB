@@ -3,7 +3,7 @@ import { Avatar } from '../ui/Avatar';
 import { Button } from '../ui/Button';
 import styles from './HostSection.module.css';
 
-export function HostSection({ host }) {
+export function HostSection({ host, onMessage }) {
   return (
     <section className={styles.section}>
       <h2 className={styles.heading}>Meet your host</h2>
@@ -75,7 +75,7 @@ export function HostSection({ host }) {
               </span>
             ))}
           </div>
-          <Button variant="soft" className={styles.message}>
+          <Button variant="soft" className={styles.message} onClick={onMessage}>
             Message host
           </Button>
           <div className={styles.protect}>

@@ -72,10 +72,10 @@ function Month({ year, month, checkIn, checkOut, blocked, onPick }) {
  * Two-month availability calendar. Picking a day starts a new range, picking a
  * later day completes it; the booking card mirrors the selection.
  */
-export function Calendar({ booking, checkIn, checkOut, onChange }) {
+export function Calendar({ booking, checkIn, checkOut, onChange, blockedDates }) {
   const [offset, setOffset] = useState(0);
   const base = booking.months[0];
-  const blocked = new Set(booking.blockedDates);
+  const blocked = new Set(blockedDates || booking.blockedDates);
   const visible = [0, 1].map((i) => addMonths(base.year, base.month, offset + i));
   const nights = checkIn && checkOut ? nightsBetween(parseIso(checkIn), parseIso(checkOut)) : 0;
 

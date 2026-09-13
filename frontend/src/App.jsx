@@ -3,6 +3,7 @@ import { useListing } from './hooks/useListing';
 import { useKeyboardMode } from './hooks/useKeyboardMode';
 import { useScrollSpy } from './hooks/useScrollSpy';
 import { useOverlays } from './hooks/useOverlays';
+import { useBooking } from './hooks/useBooking';
 import { useWishlist } from './hooks/useWishlist';
 import { useToast } from './hooks/useToast';
 import { Header } from './components/Header/Header';
@@ -13,6 +14,10 @@ import { Overview } from './components/Overview/Overview';
 import { Sleeping } from './components/Sleeping/Sleeping';
 import { Amenities } from './components/Amenities/Amenities';
 import { AmenitiesModal } from './components/Amenities/AmenitiesModal';
+import { ReserveModal } from './components/Modals/ReserveModal';
+import { MessageHostModal, ReportModal } from './components/Modals/FormModals';
+import { HowReviewsWorkModal, PolicyModal, ReviewsModal } from './components/Modals/InfoModals';
+import { formatInr } from './utils/dates';
 import { Calendar } from './components/Calendar/Calendar';
 import { BookingCard } from './components/BookingCard/BookingCard';
 import { Reviews } from './components/Reviews/Reviews';
@@ -40,13 +45,15 @@ export default function App() {
   const { active, showNav } = useScrollSpy(SECTIONS, { heroRef });
 
   const [amenitiesOpen, setAmenitiesOpen] = useState(false);
-  const [dates, setDates] = useState({ checkIn: null, checkOut: null });
+  // Which secondary dialog is open: reserve | message | report | reviews | how | policy
+  const [dialog, setDialog] = useState(null);
+  const [reviewTopic, setReviewTopic] = useState(null);
+  const [policyTopic, setPolicyTopic] = useState(null);
+  const closeDialog = useCallback(() => setDialog(null), []);
+  const booking = useBooking(SLUG, listing);
 
   useEffect(() => {
-    if (listing) {
-      document.title = listing.pageTitle;
-      setDates({ checkIn: listing.booking.checkIn, checkOut: listing.booking.checkOut });
-    }
+    if (listing) document.title = listing.pageTitle;
   }, [listing]);
 
   const onSaveChange = useCallback(
@@ -62,10 +69,28 @@ export default function App() {
     toast('Share options');
   }, [toast]);
 
-  const reserve = useCallback(() => toast("You won't be charged yet"), [toast]);
+  const reserve = useCallback(() => {
+    if (booking.price.nights === 0) {
+      toast('Select your dates first');
+      return;
+    }
+    setDialog('reserve');
+  }, [booking.price.nights, toast]);
+
+  const cancelReservation = useCallback(
+    async (id) => {
+      try {
+        await booking.cancel(id);
+        toast('Reservation cancelled');
+      } catch (err) {
+        toast(err.message);
+      }
+    },
+    [booking, toast],
+  );
 
   const photos = useMemo(() => listing?.photos ?? [], [listing]);
-  const overlayOpen = overlays.tourOpen || amenitiesOpen;
+  const overlayOpen = overlays.tourOpen || amenitiesOpen || dialog !== null;
 
   if (loading) return <PageSkeleton />;
   if (error || !listing) {
@@ -92,7 +117,12 @@ export default function App() {
         <StickyNav
           visible={showNav && !overlays.tourOpen}
           active={active}
-          booking={listing.booking}
+          priceLabel={booking.price.nights ? formatInr(booking.price.total) : 'Add dates'}
+          nightsLabel={
+            booking.price.nights
+              ? `for ${booking.price.nights} night${booking.price.nights === 1 ? '' : 's'}`
+              : ''
+          }
           rating={listing.rating}
           onReserve={reserve}
         />
@@ -120,17 +150,19 @@ export default function App() {
                 />
                 <Calendar
                   booking={listing.booking}
-                  checkIn={dates.checkIn}
-                  checkOut={dates.checkOut}
-                  onChange={setDates}
+                  checkIn={booking.dates.checkIn}
+                  checkOut={booking.dates.checkOut}
+                  onChange={booking.setDates}
+                  blockedDates={booking.blockedDates}
                 />
               </div>
               <aside className={styles.right}>
                 <BookingCard
-                  booking={listing.booking}
-                  checkIn={dates.checkIn}
-                  checkOut={dates.checkOut}
+                  promoConfig={listing.booking.promo}
+                  booking={booking}
                   onReserve={reserve}
+                  onReport={() => setDialog('report')}
+                  onCancel={cancelReservation}
                 />
               </aside>
             </div>
@@ -140,10 +172,21 @@ export default function App() {
                 summary={listing.reviewsSummary}
                 reviews={listing.reviews}
                 guestFavourite={listing.guestFavourite}
+                onShowAll={(topic) => {
+                  setReviewTopic(topic);
+                  setDialog('reviews');
+                }}
+                onHowReviewsWork={() => setDialog('how')}
               />
               <LocationMap location={listing.location} />
-              <HostSection host={listing.host} />
-              <ThingsToKnow items={listing.thingsToKnow} />
+              <HostSection host={listing.host} onMessage={() => setDialog('message')} />
+              <ThingsToKnow
+                items={listing.thingsToKnow}
+                onLearnMore={(topic) => {
+                  setPolicyTopic(topic);
+                  setDialog('policy');
+                }}
+              />
               <SimilarStays items={listing.similar} />
             </div>
           </div>
@@ -176,6 +219,37 @@ export default function App() {
         groups={listing.amenityGroups}
         onClose={() => setAmenitiesOpen(false)}
       />
+
+      <ReserveModal
+        open={dialog === 'reserve'}
+        listing={listing}
+        booking={booking}
+        onClose={closeDialog}
+        onConfirmed={() => toast('Reservation confirmed')}
+      />
+      <MessageHostModal
+        open={dialog === 'message'}
+        slug={SLUG}
+        host={listing.host}
+        onClose={closeDialog}
+        onSent={() => toast(`Message sent to ${listing.host.name}`)}
+      />
+      <ReportModal
+        open={dialog === 'report'}
+        slug={SLUG}
+        onClose={closeDialog}
+        onSent={() => toast('Thanks for letting us know')}
+      />
+      <ReviewsModal
+        key={reviewTopic || 'all'}
+        open={dialog === 'reviews'}
+        summary={listing.reviewsSummary}
+        reviews={listing.reviews}
+        initialTopic={reviewTopic}
+        onClose={closeDialog}
+      />
+      <HowReviewsWorkModal open={dialog === 'how'} onClose={closeDialog} />
+      <PolicyModal open={dialog === 'policy'} topic={policyTopic} onClose={closeDialog} />
 
       <Toast message={message} />
     </>

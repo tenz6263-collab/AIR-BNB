@@ -137,6 +137,26 @@
   background: #fff;
 }
 
+.chip {
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+
+.chip:hover {
+  border-color: #222;
+}
+
+.chipOn {
+  border-color: #222;
+  background: var(--grey-100);
+}
+
+.empty {
+  font-size: 15px;
+  color: var(--muted-2);
+}
+
 .chipIcon {
   width: 20px;
   height: 20px;

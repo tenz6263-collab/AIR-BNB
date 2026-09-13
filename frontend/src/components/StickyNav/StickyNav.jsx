@@ -8,7 +8,7 @@ const LINKS = [
 ];
 
 /** Compact bar that slides in once the hero gallery scrolls out of view. */
-export function StickyNav({ visible, active, booking, rating, onReserve }) {
+export function StickyNav({ visible, active, priceLabel, nightsLabel, rating, onReserve }) {
   return (
     <div className={`${styles.bar} ${visible ? styles.visible : ''}`} aria-hidden={!visible}>
       <div className={styles.inner}>
@@ -28,8 +28,8 @@ export function StickyNav({ visible, active, booking, rating, onReserve }) {
         <div className={styles.right}>
           <div className={styles.summary}>
             <div>
-              <span className={styles.price}>{booking.priceLabel}</span>{' '}
-              <span className={styles.nights}>{booking.nightsLabel}</span>
+              <span className={styles.price}>{priceLabel}</span>{' '}
+              <span className={styles.nights}>{nightsLabel}</span>
             </div>
             <div className={styles.ratingRow}>
               <span className={styles.star} aria-hidden="true" /> {rating.value} ·{' '}

@@ -8,6 +8,14 @@ import {
   saveWishlist,
   toggleWishlist,
 } from '../controllers/listingController.js';
+import {
+  cancelReservation,
+  createMessage,
+  createReport,
+  createReservation,
+  getQuote,
+  getReservations,
+} from '../controllers/bookingController.js';
 import { rateLimit, validateSlug } from '../middleware/guards.js';
 
 const router = Router();
@@ -28,5 +36,12 @@ const writes = rateLimit({ max: 30 });
 router.post('/:slug/wishlist', writes, toggleWishlist);
 router.put('/:slug/wishlist', writes, saveWishlist);
 router.delete('/:slug/wishlist', writes, removeWishlist);
+
+router.get('/:slug/quote', getQuote);
+router.get('/:slug/reservations', getReservations);
+router.post('/:slug/reservations', writes, createReservation);
+router.delete('/:slug/reservations/:id', writes, cancelReservation);
+router.post('/:slug/messages', writes, createMessage);
+router.post('/:slug/reports', writes, createReport);
 
 export default router;
