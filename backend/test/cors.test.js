@@ -17,3 +17,9 @@ test('bare hosts and full origins are both accepted', async () => {
   assert.equal(await decide(fn, 'http://localhost:5173'), true);
   assert.equal(await decide(fn, undefined), true);
 });
+
+test('a bare Render service slug also allows its public onrender.com host', async () => {
+  const fn = corsOrigin('airbnb-clone-web-nja8');
+  assert.equal(await decide(fn, 'https://airbnb-clone-web-nja8.onrender.com'), true);
+  assert.equal(await decide(fn, 'https://airbnb-clone-web-other.onrender.com'), false);
+});

@@ -1,18 +1,8 @@
+import { resolveApiBase } from '../utils/apiBase';
+
 const VISITOR_KEY = 'abnb.visitorId';
 
-/**
- * API origin. Empty in development (Vite proxies /api) and when the API
- * serves the built frontend itself. Set VITE_API_BASE for a split deploy
- * (e.g. a Render static site talking to a Render web service); a bare
- * hostname is accepted and upgraded to https.
- */
-function apiBase() {
-  const raw = (import.meta.env.VITE_API_BASE || '').trim().replace(/\/+$/, '');
-  if (!raw) return '';
-  return /^https?:\/\//.test(raw) ? raw : `https://${raw}`;
-}
-
-export const API_BASE = apiBase();
+export const API_BASE = resolveApiBase(import.meta.env.VITE_API_BASE);
 
 /** Stable anonymous id so wishlist state survives reloads. */
 function getVisitorId() {

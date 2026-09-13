@@ -1,9 +1,10 @@
 /**
  * Builds the CORS `origin` option from CLIENT_ORIGIN, a comma separated list
  * of allowed origins. Entries may be full origins (https://app.example.com)
- * or bare hosts (app.example.com) - Render's service references provide the
- * latter - and localhost on any port is always allowed for development.
- * With no configuration every origin is accepted.
+ * or bare hosts (app.example.com). Render's `fromService: host` yields a bare
+ * service slug ("airbnb-clone-web-nja8"), which is also accepted as its
+ * public <slug>.onrender.com host. localhost on any port is always allowed
+ * for development. With no configuration every origin is accepted.
  */
 export function corsOrigin(clientOrigin) {
   const entries = (clientOrigin || '')
@@ -12,7 +13,12 @@ export function corsOrigin(clientOrigin) {
     .filter(Boolean);
   if (entries.length === 0) return true;
 
-  const hosts = new Set(entries.map((e) => e.replace(/^https?:\/\//, '').replace(/\/+$/, '').toLowerCase()));
+  const hosts = new Set();
+  for (const entry of entries) {
+    const host = entry.replace(/^https?:\/\//, '').replace(/\/+$/, '').toLowerCase();
+    hosts.add(host);
+    if (!host.includes('.') && !host.startsWith('localhost')) hosts.add(`${host}.onrender.com`);
+  }
   return (origin, callback) => {
     if (!origin) return callback(null, true); // same-origin, curl, health checks
     let host;

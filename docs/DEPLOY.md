@@ -43,6 +43,19 @@ Simplest possible setup, no CORS involved:
 Express serves `frontend/dist` with an SPA fallback, so deep links such as
 `/?modal=PHOTO_TOUR_SCROLLABLE&modalItem=1005` work directly.
 
+## Troubleshooting
+
+- **"We couldn't load this listing - Failed to fetch"** on the static site:
+  the browser could not reach the API. Render's `fromService: host` injects
+  the bare service slug (e.g. `airbnb-clone-api-e8n8`); the client expands
+  it to `https://<slug>.onrender.com` and the API accepts the matching
+  `<slug>.onrender.com` origin, so after redeploying both services this
+  resolves itself. To check by hand: open the site's JS bundle and search
+  for `onrender.com`, and hit `https://<api-host>/api/health` with an
+  `Origin` header - the response must carry `Access-Control-Allow-Origin`.
+- If you rename a service, redeploy the *other* one too: the values are
+  baked in at build/start time.
+
 ## Notes
 
 - Free instances sleep after inactivity; the first request can take ~30s.
