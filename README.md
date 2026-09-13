@@ -98,6 +98,15 @@ diff between the two tabs. Project sub-agents (`ui-fidelity-reviewer`,
 `react-component`, `a11y-audit`) and a lint hook live in `.claude/`. The
 prompt sequence is in `docs/PROMPTS.md`.
 
+## Deploy (Render)
+
+`render.yaml` is a Render Blueprint that creates the API web service and the
+frontend static site and links them (CORS origin and API base are injected
+automatically). Push to a private repo, then **New > Blueprint** in Render.
+A single-service variant (API serving the built frontend) is described in
+`docs/DEPLOY.md`. Set `MONGODB_URI` (MongoDB Atlas) for persistence; without
+it the API runs on the bundled dataset.
+
 ## Architecture
 
 `docs/architecture.png` (also `.svg` / `.pdf`) shows the production-scale

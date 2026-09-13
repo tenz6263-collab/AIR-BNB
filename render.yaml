@@ -1,0 +1,53 @@
+# Render Blueprint - deploys the API as a Node web service and the React app
+# as a static site, wired to each other. Import it from the Render dashboard
+# ("New > Blueprint") after pushing this repo to a private GitHub/GitLab repo.
+#
+# MONGODB_URI is optional: without it the API serves the bundled dataset from
+# memory (wishlist state then lives for the life of the instance). Point it at
+# a MongoDB Atlas free-tier cluster for persistence.
+services:
+  - type: web
+    name: airbnb-clone-api
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm ci
+    startCommand: node src/server.js
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      # Allowed browser origin(s) for CORS. The static site's host is injected
+      # automatically; add extra hosts comma separated in the dashboard.
+      - key: CLIENT_ORIGIN
+        fromService:
+          type: web
+          name: airbnb-clone-web
+          property: host
+
+  - type: web
+    name: airbnb-clone-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    autoDeploy: true
+    envVars:
+      # Baked into the bundle at build time; the client upgrades a bare host
+      # to https://.
+      - key: VITE_API_BASE
+        fromService:
+          type: web
+          name: airbnb-clone-api
+          property: host
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    headers:
+      - path: /assets/index-*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
