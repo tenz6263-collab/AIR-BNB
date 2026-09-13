@@ -17,8 +17,8 @@ try {
   process.exit(0);
 }
 const file = input?.tool_input?.file_path;
-if (!file || !/frontend[\/]src[\/].+\.(jsx|css)$/.test(file) || !fs.existsSync(file)) process.exit(0);
-if (/tokens\.css$|icons[\/]index\.jsx$/.test(file)) process.exit(0);
+if (!file || !/frontend[\\/]src[\\/].+\.(jsx|css)$/.test(file) || !fs.existsSync(file)) process.exit(0);
+if (/tokens\.css$|icons[\\/]index\.jsx$/.test(file)) process.exit(0);
 
 const src = fs.readFileSync(file, 'utf8');
 const problems = [];
