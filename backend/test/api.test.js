@@ -58,3 +58,10 @@ test('malformed slugs are rejected with 400', async () => {
   const res = await fetch(`${base}/api/listings/${encodeURIComponent('bad slug!')}`);
   assert.equal(res.status, 400);
 });
+
+test('listing responses are cacheable, wishlist state is not', async () => {
+  const listing = await fetch(`${base}/api/listings/${SLUG}`);
+  assert.equal(listing.headers.get('cache-control'), 'public, max-age=60');
+  const wishlist = await fetch(`${base}/api/listings/${SLUG}/wishlist`, { headers: { 'x-visitor-id': 'v' } });
+  assert.notEqual(wishlist.headers.get('cache-control'), 'public, max-age=60');
+});

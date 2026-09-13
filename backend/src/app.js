@@ -28,7 +28,22 @@ export function createApp({ clientOrigin }) {
 
   // In production the API also serves the built frontend (npm run build).
   if (fs.existsSync(DIST)) {
-    app.use(express.static(DIST, { maxAge: '1h', index: false }));
+    app.use(
+      express.static(DIST, {
+        index: false,
+        setHeaders(res, filePath) {
+          // Vite fingerprints bundles under /assets/index-*.{js,css}; images and
+          // fonts are stable content, index.html must always revalidate.
+          if (/[\\/]assets[\\/]index-[\w-]+\.(js|css)$/.test(filePath)) {
+            res.set('Cache-Control', 'public, max-age=31536000, immutable');
+          } else if (/\.(jpe?g|png|svg|woff2?)$/i.test(filePath)) {
+            res.set('Cache-Control', 'public, max-age=86400');
+          } else {
+            res.set('Cache-Control', 'no-cache');
+          }
+        },
+      }),
+    );
     app.get(/^(?!\/api\/).*/, (_req, res) => res.sendFile(path.join(DIST, 'index.html')));
   }
 
