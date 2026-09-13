@@ -66,5 +66,14 @@ all identical.
 | Escape in tour | closes, focus returns to opener | same |
 | Amenities modal | Escape / backdrop closes, focus returns to trigger | same |
 | Description / review "Show more" | expands in place | same |
-| Claim, Show all reviews, Message host, Report, How reviews work | no-op | no-op |
-| Calendar | static | interactive (range selection, month paging) - deliberate enhancement |
+| Claim | no-op | applies a 10% promo; price updates in the card, sticky nav and checkout (enhancement) |
+| Guests field | static | popover with counters, 3-guest limit (enhancement) |
+| Reserve | toast only | confirm dialog with server-priced breakdown, stored reservation, dates blocked, cancel (enhancement) |
+| Show all reviews / topic chips / How reviews work | no-op | reviews browser with search and topic filter; chips filter the page; info dialog (enhancement) |
+| Message host / Report | no-op | forms stored through the API (enhancement) |
+| Learn more (things to know) | no-op | policy dialogs (enhancement) |
+| Calendar | static | interactive: range selection, month paging, blocked by host dates and reservations (enhancement) |
+
+Every enhancement lives inside a dialog or popover, or changes text only,
+so the measured layout of the page itself is unchanged (re-measured after
+the feature work: identical to the table above).
