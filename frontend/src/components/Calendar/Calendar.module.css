@@ -91,11 +91,6 @@
   background: none;
   padding: 0;
   color: #222;
-  transition: box-shadow 0.12s;
-}
-
-.day:not(.hidden):not(.blocked):not(.start):not(.end):hover {
-  box-shadow: inset 0 0 0 1.5px #222;
 }
 
 .hidden {
