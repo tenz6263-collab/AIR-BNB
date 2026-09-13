@@ -172,3 +172,17 @@ Passes so far:
 - Seed dataset validated against the Mongoose schema and checked for
   internal consistency.
 - "Try again" action on the listing error state.
+- Overlay/wishlist state extracted into `useOverlays` / `useWishlist`.
+- Calendar hover ring removed for parity; cache headers on the production
+  server; idempotent PUT/DELETE wishlist endpoints; fixed the Claude lint
+  hook's path regex.
+
+## 16. Hosting on Render
+
+> Host both the frontend and the backend on Render.
+
+Output: `render.yaml` Blueprint (API web service + static site, linked via
+`fromService` env vars), `VITE_API_BASE` support in the client, host-aware
+CORS with tests, `trust proxy`, `engines` pins, `docs/DEPLOY.md`. Rehearsed
+locally by serving the static bundle on a second port against the API with
+CORS restricted to that origin (7/7 e2e).
