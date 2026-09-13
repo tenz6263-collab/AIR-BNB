@@ -65,3 +65,16 @@ test('listing responses are cacheable, wishlist state is not', async () => {
   const wishlist = await fetch(`${base}/api/listings/${SLUG}/wishlist`, { headers: { 'x-visitor-id': 'v' } });
   assert.notEqual(wishlist.headers.get('cache-control'), 'public, max-age=60');
 });
+
+test('PUT and DELETE set the saved flag idempotently', async () => {
+  const headers = { 'x-visitor-id': 'idempotent-visitor' };
+  const url = `${base}/api/listings/${SLUG}/wishlist`;
+  for (let i = 0; i < 2; i += 1) {
+    const r = await (await fetch(url, { method: 'PUT', headers })).json();
+    assert.equal(r.saved, true);
+  }
+  for (let i = 0; i < 2; i += 1) {
+    const r = await (await fetch(url, { method: 'DELETE', headers })).json();
+    assert.equal(r.saved, false);
+  }
+});

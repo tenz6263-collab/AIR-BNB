@@ -86,6 +86,7 @@ docs/                    architecture diagram (svg/png/pdf), PROMPTS.md
 | GET | `/api/listings/:slug/reviews` | Review summary and reviews |
 | GET | `/api/listings/:slug/wishlist` | `{ saved }` for the `x-visitor-id` header |
 | POST | `/api/listings/:slug/wishlist` | Toggles the saved state |
+| PUT / DELETE | `/api/listings/:slug/wishlist` | Sets / clears the saved state (idempotent) |
 
 ## AI workflow
 

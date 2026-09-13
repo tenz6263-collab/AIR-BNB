@@ -80,32 +80,35 @@ export async function getWishlistState(req, res, next) {
   }
 }
 
-export async function toggleWishlist(req, res, next) {
+/** Reads, sets or clears the saved flag for one visitor/listing pair. */
+async function setWishlist(visitorId, slug, mode) {
+  if (isDatabaseConnected()) {
+    const existing = await Wishlist.findOne({ visitorId, listingSlug: slug });
+    const wantSaved = mode === 'toggle' ? !existing : mode === 'save';
+    if (wantSaved && !existing) await Wishlist.create({ visitorId, listingSlug: slug });
+    if (!wantSaved && existing) await existing.deleteOne();
+    return wantSaved;
+  }
+  const set = memoryWishlist.get(visitorId) ?? new Set();
+  const wantSaved = mode === 'toggle' ? !set.has(slug) : mode === 'save';
+  if (wantSaved) set.add(slug);
+  else set.delete(slug);
+  memoryWishlist.set(visitorId, set);
+  return wantSaved;
+}
+
+const wishlistHandler = (mode) => async (req, res, next) => {
   try {
     const { slug } = req.params;
-    const visitorId = req.visitorId;
     const listing = await findListing(slug);
     if (!listing) return notFound(res);
-
-    let saved;
-    if (isDatabaseConnected()) {
-      const existing = await Wishlist.findOne({ visitorId, listingSlug: slug });
-      if (existing) {
-        await existing.deleteOne();
-        saved = false;
-      } else {
-        await Wishlist.create({ visitorId, listingSlug: slug });
-        saved = true;
-      }
-    } else {
-      const set = memoryWishlist.get(visitorId) ?? new Set();
-      if (set.has(slug)) set.delete(slug);
-      else set.add(slug);
-      memoryWishlist.set(visitorId, set);
-      saved = set.has(slug);
-    }
+    const saved = await setWishlist(req.visitorId, slug, mode);
     res.json({ saved });
   } catch (err) {
     next(err);
   }
-}
+};
+
+export const toggleWishlist = wishlistHandler('toggle');
+export const saveWishlist = wishlistHandler('save');
+export const removeWishlist = wishlistHandler('remove');

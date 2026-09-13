@@ -4,6 +4,8 @@ import {
   getPhotos,
   getReviews,
   getWishlistState,
+  removeWishlist,
+  saveWishlist,
   toggleWishlist,
 } from '../controllers/listingController.js';
 import { rateLimit, validateSlug } from '../middleware/guards.js';
@@ -22,6 +24,9 @@ router.get('/:slug', cacheable, getListing);
 router.get('/:slug/photos', cacheable, getPhotos);
 router.get('/:slug/reviews', cacheable, getReviews);
 router.get('/:slug/wishlist', getWishlistState);
-router.post('/:slug/wishlist', rateLimit({ max: 30 }), toggleWishlist);
+const writes = rateLimit({ max: 30 });
+router.post('/:slug/wishlist', writes, toggleWishlist);
+router.put('/:slug/wishlist', writes, saveWishlist);
+router.delete('/:slug/wishlist', writes, removeWishlist);
 
 export default router;
